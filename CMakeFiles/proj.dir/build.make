@@ -72,14 +72,39 @@ CMakeFiles/proj.dir/main.cpp.o.provides: CMakeFiles/proj.dir/main.cpp.o.requires
 
 CMakeFiles/proj.dir/main.cpp.o.provides.build: CMakeFiles/proj.dir/main.cpp.o
 
+CMakeFiles/proj.dir/image.cpp.o: CMakeFiles/proj.dir/flags.make
+CMakeFiles/proj.dir/image.cpp.o: image.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/martin/Documents/prosjektoppgave/project/CMakeFiles $(CMAKE_PROGRESS_2)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/proj.dir/image.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/proj.dir/image.cpp.o -c /home/martin/Documents/prosjektoppgave/project/image.cpp
+
+CMakeFiles/proj.dir/image.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/proj.dir/image.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/martin/Documents/prosjektoppgave/project/image.cpp > CMakeFiles/proj.dir/image.cpp.i
+
+CMakeFiles/proj.dir/image.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/proj.dir/image.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/martin/Documents/prosjektoppgave/project/image.cpp -o CMakeFiles/proj.dir/image.cpp.s
+
+CMakeFiles/proj.dir/image.cpp.o.requires:
+.PHONY : CMakeFiles/proj.dir/image.cpp.o.requires
+
+CMakeFiles/proj.dir/image.cpp.o.provides: CMakeFiles/proj.dir/image.cpp.o.requires
+	$(MAKE) -f CMakeFiles/proj.dir/build.make CMakeFiles/proj.dir/image.cpp.o.provides.build
+.PHONY : CMakeFiles/proj.dir/image.cpp.o.provides
+
+CMakeFiles/proj.dir/image.cpp.o.provides.build: CMakeFiles/proj.dir/image.cpp.o
+
 # Object files for target proj
 proj_OBJECTS = \
-"CMakeFiles/proj.dir/main.cpp.o"
+"CMakeFiles/proj.dir/main.cpp.o" \
+"CMakeFiles/proj.dir/image.cpp.o"
 
 # External object files for target proj
 proj_EXTERNAL_OBJECTS =
 
 proj: CMakeFiles/proj.dir/main.cpp.o
+proj: CMakeFiles/proj.dir/image.cpp.o
 proj: CMakeFiles/proj.dir/build.make
 proj: /usr/local/lib/libopencv_calib3d.so
 proj: /usr/local/lib/libopencv_contrib.so
@@ -108,6 +133,7 @@ CMakeFiles/proj.dir/build: proj
 .PHONY : CMakeFiles/proj.dir/build
 
 CMakeFiles/proj.dir/requires: CMakeFiles/proj.dir/main.cpp.o.requires
+CMakeFiles/proj.dir/requires: CMakeFiles/proj.dir/image.cpp.o.requires
 .PHONY : CMakeFiles/proj.dir/requires
 
 CMakeFiles/proj.dir/clean:

@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/martin/Documents/prosjektoppgave/project
 CMakeFiles/proj.dir/all:
 	$(MAKE) -f CMakeFiles/proj.dir/build.make CMakeFiles/proj.dir/depend
 	$(MAKE) -f CMakeFiles/proj.dir/build.make CMakeFiles/proj.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/martin/Documents/prosjektoppgave/project/CMakeFiles  1
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/martin/Documents/prosjektoppgave/project/CMakeFiles  1 2
 	@echo "Built target proj"
 .PHONY : CMakeFiles/proj.dir/all
 
@@ -69,7 +69,7 @@ all: CMakeFiles/proj.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/proj.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/martin/Documents/prosjektoppgave/project/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/martin/Documents/prosjektoppgave/project/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/proj.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/martin/Documents/prosjektoppgave/project/CMakeFiles 0
 .PHONY : CMakeFiles/proj.dir/rule

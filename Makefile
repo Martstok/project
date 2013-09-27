@@ -111,6 +111,30 @@ proj/fast:
 	$(MAKE) -f CMakeFiles/proj.dir/build.make CMakeFiles/proj.dir/build
 .PHONY : proj/fast
 
+image.o: image.cpp.o
+.PHONY : image.o
+
+# target to build an object file
+image.cpp.o:
+	$(MAKE) -f CMakeFiles/proj.dir/build.make CMakeFiles/proj.dir/image.cpp.o
+.PHONY : image.cpp.o
+
+image.i: image.cpp.i
+.PHONY : image.i
+
+# target to preprocess a source file
+image.cpp.i:
+	$(MAKE) -f CMakeFiles/proj.dir/build.make CMakeFiles/proj.dir/image.cpp.i
+.PHONY : image.cpp.i
+
+image.s: image.cpp.s
+.PHONY : image.s
+
+# target to generate assembly for a file
+image.cpp.s:
+	$(MAKE) -f CMakeFiles/proj.dir/build.make CMakeFiles/proj.dir/image.cpp.s
+.PHONY : image.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -144,6 +168,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... proj"
 	@echo "... rebuild_cache"
+	@echo "... image.o"
+	@echo "... image.i"
+	@echo "... image.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

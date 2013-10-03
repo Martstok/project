@@ -10,3 +10,7 @@ Image::Image(string sourceReference)
 {
     cap = VideoCapture(sourceReference);
 }
+Image::Image(string sourceReference, string sourceType)
+{
+    raw = imread(sourceReference);
+}

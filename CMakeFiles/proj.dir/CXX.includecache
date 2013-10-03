@@ -6,12 +6,24 @@
 
 #IncludeRegexTransform: 
 
+/home/martin/Documents/prosjektoppgave/project/gui.cpp
+gui.h
+/home/martin/Documents/prosjektoppgave/project/gui.h
+opencv2/highgui/highgui.hpp
+-
+iostream
+-
+
+/home/martin/Documents/prosjektoppgave/project/gui.h
+
 /home/martin/Documents/prosjektoppgave/project/image.h
 opencv2/video/video.hpp
 -
 opencv2/highgui/highgui.hpp
 -
 string
+-
+vector
 -
 
 /home/martin/Documents/prosjektoppgave/project/main.cpp
@@ -29,6 +41,8 @@ stdio.h
 /home/martin/Documents/prosjektoppgave/project/stdio.h
 opencv2/imgproc/imgproc.hpp
 -
+gui.h
+/home/martin/Documents/prosjektoppgave/project/gui.h
 
 /usr/local/include/opencv2/core/core.hpp
 opencv2/core/types_c.h

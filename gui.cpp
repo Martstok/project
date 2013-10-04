@@ -37,3 +37,13 @@ void initializeTrackbars(GuiParameters* guiParameters){
     createTrackbar("upper3","trackbars",&(guiParameters->c_upper)[0][2],255);
     createTrackbar("area","trackbars",&(guiParameters->area),235);
 }
+
+
+void initializeGui(GuiParameters* guiParameters){
+    namedWindow("frame", CV_WINDOW_KEEPRATIO);
+    namedWindow("BW", CV_WINDOW_KEEPRATIO);
+    namedWindow("trackbars",CV_WINDOW_KEEPRATIO);
+    moveWindow("trackbars", 355,0);
+    moveWindow("BW", 0,350);
+    initializeTrackbars(guiParameters);
+}

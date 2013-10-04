@@ -5,7 +5,7 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <string>
 #include <vector>
-
+#include <opencv2/nonfree/features2d.hpp>
 
 class Image
 {
@@ -22,7 +22,12 @@ public:
     cv::Mat srcLR;
     cv::Mat bw;
     cv::Mat blur;
+    std::vector<cv::KeyPoint> keypoints;
+    cv::Mat descriptor;
+
     std::vector<cv::Mat> bwList;
 };
+
+
 
 #endif // IMAGE_H

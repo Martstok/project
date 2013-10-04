@@ -111,6 +111,30 @@ proj/fast:
 	$(MAKE) -f CMakeFiles/proj.dir/build.make CMakeFiles/proj.dir/build
 .PHONY : proj/fast
 
+colorThresholding.o: colorThresholding.cpp.o
+.PHONY : colorThresholding.o
+
+# target to build an object file
+colorThresholding.cpp.o:
+	$(MAKE) -f CMakeFiles/proj.dir/build.make CMakeFiles/proj.dir/colorThresholding.cpp.o
+.PHONY : colorThresholding.cpp.o
+
+colorThresholding.i: colorThresholding.cpp.i
+.PHONY : colorThresholding.i
+
+# target to preprocess a source file
+colorThresholding.cpp.i:
+	$(MAKE) -f CMakeFiles/proj.dir/build.make CMakeFiles/proj.dir/colorThresholding.cpp.i
+.PHONY : colorThresholding.cpp.i
+
+colorThresholding.s: colorThresholding.cpp.s
+.PHONY : colorThresholding.s
+
+# target to generate assembly for a file
+colorThresholding.cpp.s:
+	$(MAKE) -f CMakeFiles/proj.dir/build.make CMakeFiles/proj.dir/colorThresholding.cpp.s
+.PHONY : colorThresholding.cpp.s
+
 gui.o: gui.cpp.o
 .PHONY : gui.o
 
@@ -192,6 +216,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... proj"
 	@echo "... rebuild_cache"
+	@echo "... colorThresholding.o"
+	@echo "... colorThresholding.i"
+	@echo "... colorThresholding.s"
 	@echo "... gui.o"
 	@echo "... gui.i"
 	@echo "... gui.s"

@@ -12,6 +12,8 @@ struct GuiParameters
     int gap;
 };
 
+
+void initializeGui(GuiParameters* guiParameters);
 void initializeTrackbars(GuiParameters*);
 
 

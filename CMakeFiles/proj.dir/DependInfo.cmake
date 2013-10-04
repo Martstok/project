@@ -4,6 +4,7 @@ SET(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 SET(CMAKE_DEPENDS_CHECK_CXX
+  "/home/martin/Documents/prosjektoppgave/project/colorThresholding.cpp" "/home/martin/Documents/prosjektoppgave/project/CMakeFiles/proj.dir/colorThresholding.cpp.o"
   "/home/martin/Documents/prosjektoppgave/project/gui.cpp" "/home/martin/Documents/prosjektoppgave/project/CMakeFiles/proj.dir/gui.cpp.o"
   "/home/martin/Documents/prosjektoppgave/project/image.cpp" "/home/martin/Documents/prosjektoppgave/project/CMakeFiles/proj.dir/image.cpp.o"
   "/home/martin/Documents/prosjektoppgave/project/main.cpp" "/home/martin/Documents/prosjektoppgave/project/CMakeFiles/proj.dir/main.cpp.o"

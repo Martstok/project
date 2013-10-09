@@ -29,7 +29,7 @@ void surf(Image* img);
 //================================MAIN================================
 
 int main(){
-    string sourceReference = "Windmill5.jpg";
+    string sourceReference = "Windmill7.jpg";
     string sourceType = "image";
     string sourceReference2 = "Windmill.jpg";
     string sourceType2 = "image";
@@ -51,77 +51,66 @@ int main(){
         if (img->raw.empty()){
             break;
         }
-
-        surf(img);
-        surf(img2);
-
-        // matching descriptors
-
-        FlannBasedMatcher matcher;
-        vector< DMatch > matches;
-        matcher.match( img->descriptor, img2->descriptor, matches );
-
-//        BFMatcher matcher(NORM_L2);
-//        vector<DMatch> matches;
-//        matcher.match(img->descriptor, img2->descriptor, matches);
-
-        // drawing the results
-        namedWindow("matches", 1);
-        Mat img_matches;
-        int flags = 4;
-        vector<char> empty;
-        drawMatches(img->raw, img->keypoints, img2->raw, img2->keypoints, matches, img_matches, Scalar::all(-1),Scalar::all(-1),vector<char>(),DrawMatchesFlags::DEFAULT);
-//        drawMatches(roi, keypoints_1, src, keypoints_2, good_matches, img_matches,Scalar::all(-1), Scalar::all(-1), vector<char>(),DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
-//        cout << "length" << matches.toList(0) << endl;
-//        for(int i = 0; i < size(matches), i++){
-//            line(img_matches,img1.raw,Point2f(img2[i].x+w,img2[i].y),Scalar(255,255,255),5);
-//            line(image2,Point2f(img1[i].x-w,img1[i].y),img2[i],Scalar(255,255,255),5);
-//        }
-        imshow("matches", img_matches);
-
-        pyrDown(img->raw, img->srcLR);
-        blur(img->srcLR,img->blur,Size(5,5));
+        img->raw.copyTo(img->srcLR);
+//        pyrDown(img->raw, img->srcLR);
+//        blur(img->srcLR,img->blur,Size(5,5));
         produceBinaries(img, guiParameters);
         cvtColor(img->raw, img->gray, CV_BGR2GRAY);
+        pyrDown(img->gray, img->grayLR);
         imshow("frame", img->raw);
-//        imshow("BW", img->keypoints);
+        blur(img->bw,img->bw,Size(guiParameters->blur+1,guiParameters->blur+1));
+        imshow("BW", img->bw);
+
+
+
+
+        Mat M = getStructuringElement(MORPH_RECT, Size(guiParameters->erode+1, guiParameters->erode+1));
+        erode(img->bw, img->bw, M);
+        int cannyRatio = 3;
+        Canny(img->bw, img->canny, guiParameters->cannyThreshold,guiParameters->cannyThreshold*cannyRatio,3);
+        vector<Vec4i> lines;
+        HoughLinesP(img->canny, lines, 1, CV_PI/180, guiParameters->houghThreshold+1, guiParameters->houghMinLength, guiParameters->houghMaxGap );
+        Mat img3(1000,360, CV_8UC1, Scalar(0));
+        img->hough = img3;
+        vector<Vec2f> lines2;
+//        HoughLines(img->canny, lines2, 1, CV_PI/180, 100, guiParameters->houghThreshold, 0 );
+        cvtColor(img->canny,img->canny, CV_GRAY2BGR);
+//        for( size_t i = 0; i < lines2.size(); i++ )
+//        {
+//          float rho = lines2[i][0], theta = lines2[i][1];
+//          Point pt1, pt2;
+//          double a = cos(theta), b = sin(theta);
+//          double x0 = a*rho, y0 = b*rho;
+//          pt1.x = cvRound(x0 + 1000*(-b));
+//          pt1.y = cvRound(y0 + 1000*(a));
+//          pt2.x = cvRound(x0 - 1000*(-b));
+//          pt2.y = cvRound(y0 - 1000*(a));
+//          line( img->canny, pt1, pt2, Scalar(0,0,255), 3, CV_AA);
+//          cout << "theta:" << theta/CV_PI*180 << endl;
+//          cout << "rho: " << rho << endl;
+//          img->hough.at<Scalar>(abs(int(rho)),int(theta/CV_PI*180)) = 255;
+//          cout <<"here "<< img->hough.at<Scalar>(abs(int(rho)),int(theta/CV_PI*180))<<endl;
+//          cout << i << endl;
+//        }
+
+        for( size_t i = 0; i < lines.size(); i++ )
+        {
+          Vec4i l = lines[i];
+          line( img->canny, Point(l[0], l[1]), Point(l[2], l[3]), Scalar(255,0,0), 3, CV_AA);
+        }
+        if (!img->hough.empty()){
+            imshow("houghLines", img->hough);
+        }
+
+
+        imshow("houghLines", img->hough);
+        imshow("canny", img->canny);
         char c = cvWaitKey(33);
-        c = cvWaitKey(99999999);
+//        c = cvWaitKey(99999999);
         if (c == 27) break;
     }
     return 0;
 }
-
-
-
-
-void surf(Image* img){
-    // detecting keypoints
-    SurfFeatureDetector detector(1500);
-    vector<KeyPoint> keypoints1, keypoints2;
-    cout << "heyheyhey" << endl;
-    detector.detect(img->raw, img->keypoints);
-//    detector.detect(img2, keypoints2);
-
-    // computing descriptors
-    SurfDescriptorExtractor extractor;
-    Mat descriptors1, descriptors2;
-    extractor.compute(img->raw, img->keypoints, img->descriptor);
-//    extractor.compute(img2, keypoints2, descriptors2);
-
-//    // matching descriptors
-//    BruteForceMatcher<L2<float> > matcher;
-//    vector<DMatch> matches;
-//    matcher.match(descriptors1, descriptors2, matches);
-
-//    // drawing the results
-//    namedWindow("matches", 1);
-//    Mat img_matches;
-//    drawMatches(img1, keypoints1, img2, keypoints2, matches, img_matches);
-//    imshow("matches", img_matches);
-//    waitKey(0);
-}
-
 
 
 

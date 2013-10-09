@@ -18,6 +18,10 @@ GuiParameters::GuiParameters()
     }
     area = 0;
     gap = 35;
+    cannyThreshold = 50;
+    houghThreshold = 50;
+    houghMinLength = 50;
+    houghMaxGap = 10;
 }
 
 void initializeTrackbars(GuiParameters* guiParameters){
@@ -36,14 +40,23 @@ void initializeTrackbars(GuiParameters* guiParameters){
     createTrackbar("upper2","trackbars",&(guiParameters->c_upper)[0][1],255);
     createTrackbar("upper3","trackbars",&(guiParameters->c_upper)[0][2],255);
     createTrackbar("area","trackbars",&(guiParameters->area),235);
+    createTrackbar("canny","trackbars",&(guiParameters->cannyThreshold), 255);
+    createTrackbar("houghThreshold","trackbars",&(guiParameters->houghThreshold), 255);
+    createTrackbar("houghMinLength","trackbars",&(guiParameters->houghMinLength), 255);
+    createTrackbar("houghMaxGap","trackbars",&(guiParameters->houghMaxGap), 255);
+    createTrackbar("blur","trackbars",&(guiParameters->blur), 25);
+    createTrackbar("erode","trackbars",&(guiParameters->erode), 25);
 }
 
 
 void initializeGui(GuiParameters* guiParameters){
-    namedWindow("frame", CV_WINDOW_KEEPRATIO);
+    namedWindow("frame", CV_WINDOW_AUTOSIZE);
     namedWindow("BW", CV_WINDOW_KEEPRATIO);
     namedWindow("trackbars",CV_WINDOW_KEEPRATIO);
     moveWindow("trackbars", 355,0);
     moveWindow("BW", 0,350);
+    namedWindow("canny", CV_WINDOW_KEEPRATIO);
+    moveWindow("canny",0,0);
+    namedWindow("houghLines", CV_WINDOW_KEEPRATIO);
     initializeTrackbars(guiParameters);
 }

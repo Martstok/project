@@ -18,7 +18,7 @@ void produceBinaries(Image* img, GuiParameters* guiParameters){
         lowerBound=Scalar( guiParameters->area,guiParameters->area,guiParameters->area );
         upperBound=Scalar( guiParameters->area+guiParameters->gap,guiParameters->area+guiParameters->gap,guiParameters->area+guiParameters->gap);
         img->bwList.push_back(Mat(img->srcLR.rows,img->srcLR.cols,CV_8U));
-        inRange(img->blur,lowerBound,upperBound,img->bwList[i]);
+        inRange(img->srcLR,lowerBound,upperBound,img->bwList[i]);
     }
 
     img->bwList[0].copyTo(img->bw);

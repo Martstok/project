@@ -10,6 +10,12 @@ struct GuiParameters
     int avgColor[NSAMPLES][3];
     int area;
     int gap;
+    int cannyThreshold;
+    int houghThreshold;
+    int houghMinLength;
+    int houghMaxGap;
+    int blur;
+    int erode;
 };
 
 

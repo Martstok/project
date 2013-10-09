@@ -1,5 +1,5 @@
 #ifndef IMAGE_H
-#define IMAGE_Hqt
+#define IMAGE_H
 
 #include <opencv2/video/video.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -22,6 +22,8 @@ public:
     cv::Mat srcLR;
     cv::Mat bw;
     cv::Mat blur;
+    cv::Mat grayLR;
+    cv::Mat hough;
     std::vector<cv::KeyPoint> keypoints;
     cv::Mat descriptor;
 

@@ -25,11 +25,12 @@ void normalizeColors(Image *img);
 void produceBinaries(Image *img);
 void initTrackbars();
 void surf(Image* img);
+vector<Vec2f> detectVerticalHoughLine(vector<Vec2f> lines);
 
 //================================MAIN================================
 
 int main(){
-    string sourceReference = "Windmill7.jpg";
+    string sourceReference = "Windmill2.jpg";
     string sourceType = "image";
     string sourceReference2 = "Windmill.jpg";
     string sourceType2 = "image";
@@ -43,6 +44,9 @@ int main(){
     img->cap >> img->raw;
     }
 
+    vector<Vec4i> lines;
+    vector<Vec2f> lines2;
+    vector<Vec2f> vLines;
     while(true){
         if (sourceType == "video"){
             img->prevRaw = img->raw;
@@ -68,40 +72,63 @@ int main(){
         erode(img->bw, img->bw, M);
         int cannyRatio = 3;
         Canny(img->bw, img->canny, guiParameters->cannyThreshold,guiParameters->cannyThreshold*cannyRatio,3);
-        vector<Vec4i> lines;
-        HoughLinesP(img->canny, lines, 1, CV_PI/180, guiParameters->houghThreshold+1, guiParameters->houghMinLength, guiParameters->houghMaxGap );
-        Mat img3(1000,360, CV_8UC1, Scalar(0));
-        img->hough = img3;
-        vector<Vec2f> lines2;
-//        HoughLines(img->canny, lines2, 1, CV_PI/180, 100, guiParameters->houghThreshold, 0 );
+
+//        HoughLinesP(img->canny, lines, 1, CV_PI/180, guiParameters->houghThreshold+1, guiParameters->houghMinLength, guiParameters->houghMaxGap );
+
+        img->hough = Mat(1000,360, CV_8UC1, Scalar(0));
+        img->bw.copyTo(img->hough);
+        img->hough = Scalar(0);
+
+        HoughLines(img->canny, lines2, 1, CV_PI/180, guiParameters->houghThreshold );
         cvtColor(img->canny,img->canny, CV_GRAY2BGR);
-//        for( size_t i = 0; i < lines2.size(); i++ )
-//        {
-//          float rho = lines2[i][0], theta = lines2[i][1];
-//          Point pt1, pt2;
-//          double a = cos(theta), b = sin(theta);
-//          double x0 = a*rho, y0 = b*rho;
-//          pt1.x = cvRound(x0 + 1000*(-b));
-//          pt1.y = cvRound(y0 + 1000*(a));
-//          pt2.x = cvRound(x0 - 1000*(-b));
-//          pt2.y = cvRound(y0 - 1000*(a));
-//          line( img->canny, pt1, pt2, Scalar(0,0,255), 3, CV_AA);
+        for( size_t i = 0; i < lines2.size(); i++ )
+        {
+          float rho = lines2[i][0], theta = lines2[i][1];
+          Point pt1, pt2;
+          double a = cos(theta), b = sin(theta);
+          double x0 = a*rho, y0 = b*rho;
+          pt1.x = cvRound(x0 + 1000*(-b));
+          pt1.y = cvRound(y0 + 1000*(a));
+          pt2.x = cvRound(x0 - 1000*(-b));
+          pt2.y = cvRound(y0 - 1000*(a));
+          line( img->canny, pt1, pt2, Scalar(0,0,255), 3, CV_AA);
 //          cout << "theta:" << theta/CV_PI*180 << endl;
 //          cout << "rho: " << rho << endl;
-//          img->hough.at<Scalar>(abs(int(rho)),int(theta/CV_PI*180)) = 255;
+          img->hough.at<Scalar>(abs(int(rho)),int(theta/CV_PI*180)) = 255;
 //          cout <<"here "<< img->hough.at<Scalar>(abs(int(rho)),int(theta/CV_PI*180))<<endl;
 //          cout << i << endl;
+        }
+
+ cout << "theta000:  " << endl;
+
+        vLines = detectVerticalHoughLine(lines2);
+         cout << "theta001:  " << vLines.size() << endl;
+        for( size_t i = 0; i < vLines.size(); i++ ){
+            cout << "almsost theta" << endl;
+            cout << "theta:  " << vLines.size() << endl;
+            char c = cvWaitKey(330);
+            float rho = vLines[i][0], theta = vLines[i][1];
+            Point pt1, pt2;
+            double a = cos(theta), b = sin(theta);
+            double x0 = a*rho, y0 = b*rho;
+            pt1.x = cvRound(x0 + 1000*(-b));
+            pt1.y = cvRound(y0 + 1000*(a));
+            pt2.x = cvRound(x0 - 1000*(-b));
+            pt2.y = cvRound(y0 - 1000*(a));
+//        line( img->hough, pt1, pt2, Scalar(0,0,255), 3, CV_AA);
+        }
+//        Mat temp;
+//        img->hough.copyTo(temp);
+//        for( size_t i = 0; i < lines.size(); i++ )
+//        {
+//          Vec4i l = lines[i];
+//          line( img->canny, Point(l[0], l[1]), Point(l[2], l[3]), Scalar(255,0,0), 3, CV_AA);
+//          circle(temp, Point(l[0], l[1]), 30, Scalar(10,0,0), -1);
+//          img->hough += temp;
+//          circle(temp, Point(l[2], l[3]), 30, Scalar(10,0,0), -1);
+//          img->hough += temp;
+
 //        }
-
-        for( size_t i = 0; i < lines.size(); i++ )
-        {
-          Vec4i l = lines[i];
-          line( img->canny, Point(l[0], l[1]), Point(l[2], l[3]), Scalar(255,0,0), 3, CV_AA);
-        }
-        if (!img->hough.empty()){
-            imshow("houghLines", img->hough);
-        }
-
 
         imshow("houghLines", img->hough);
         imshow("canny", img->canny);
@@ -114,11 +141,20 @@ int main(){
 
 
 
+vector<Vec2f> detectVerticalHoughLine(vector<Vec2f> lines){
+     cout << "theta2:  " << lines.size() << endl;
+    int ratio = 15;
+    vector<Vec2f> verticalLines;
+    for(size_t i = 0; i < lines.size(); i++) {
+//        if(abs(lines[i][1]) == 0.01 ){
 
-
-
-
-
+//            verticalLines.push_back(lines[i]);
+//            cout << "porke " << endl;
+//        }
+    }
+     cout << "theta:  " << verticalLines.size() << endl;
+   return verticalLines;
+}
 
 
 

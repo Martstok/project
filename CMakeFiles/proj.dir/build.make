@@ -170,7 +170,6 @@ proj: /usr/local/lib/libopencv_nonfree.so
 proj: /usr/local/lib/libopencv_objdetect.so
 proj: /usr/local/lib/libopencv_photo.so
 proj: /usr/local/lib/libopencv_stitching.so
-proj: /usr/local/lib/libopencv_superres.so
 proj: /usr/local/lib/libopencv_ts.so
 proj: /usr/local/lib/libopencv_video.so
 proj: /usr/local/lib/libopencv_videostab.so

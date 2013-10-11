@@ -8,6 +8,7 @@ SET(CMAKE_DEPENDS_CHECK_CXX
   "/home/martin/Documents/prosjektoppgave/project/gui.cpp" "/home/martin/Documents/prosjektoppgave/project/CMakeFiles/proj.dir/gui.cpp.o"
   "/home/martin/Documents/prosjektoppgave/project/image.cpp" "/home/martin/Documents/prosjektoppgave/project/CMakeFiles/proj.dir/image.cpp.o"
   "/home/martin/Documents/prosjektoppgave/project/main.cpp" "/home/martin/Documents/prosjektoppgave/project/CMakeFiles/proj.dir/main.cpp.o"
+  "/home/martin/Documents/prosjektoppgave/project/target.cpp" "/home/martin/Documents/prosjektoppgave/project/CMakeFiles/proj.dir/target.cpp.o"
   )
 SET(CMAKE_CXX_COMPILER_ID "GNU")
 

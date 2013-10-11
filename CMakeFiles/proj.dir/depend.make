@@ -60,6 +60,7 @@ CMakeFiles/proj.dir/main.cpp.o: colorThresholding.h
 CMakeFiles/proj.dir/main.cpp.o: gui.h
 CMakeFiles/proj.dir/main.cpp.o: image.h
 CMakeFiles/proj.dir/main.cpp.o: main.cpp
+CMakeFiles/proj.dir/main.cpp.o: target.h
 CMakeFiles/proj.dir/main.cpp.o: /usr/local/include/opencv2/calib3d/calib3d.hpp
 CMakeFiles/proj.dir/main.cpp.o: /usr/local/include/opencv2/core/core.hpp
 CMakeFiles/proj.dir/main.cpp.o: /usr/local/include/opencv2/core/core_c.h
@@ -82,4 +83,12 @@ CMakeFiles/proj.dir/main.cpp.o: /usr/local/include/opencv2/nonfree/features2d.hp
 CMakeFiles/proj.dir/main.cpp.o: /usr/local/include/opencv2/video/background_segm.hpp
 CMakeFiles/proj.dir/main.cpp.o: /usr/local/include/opencv2/video/tracking.hpp
 CMakeFiles/proj.dir/main.cpp.o: /usr/local/include/opencv2/video/video.hpp
+
+CMakeFiles/proj.dir/target.cpp.o: target.cpp
+CMakeFiles/proj.dir/target.cpp.o: target.h
+CMakeFiles/proj.dir/target.cpp.o: /usr/local/include/opencv2/core/core.hpp
+CMakeFiles/proj.dir/target.cpp.o: /usr/local/include/opencv2/core/mat.hpp
+CMakeFiles/proj.dir/target.cpp.o: /usr/local/include/opencv2/core/operations.hpp
+CMakeFiles/proj.dir/target.cpp.o: /usr/local/include/opencv2/core/types_c.h
+CMakeFiles/proj.dir/target.cpp.o: /usr/local/include/opencv2/core/version.hpp
 

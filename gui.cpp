@@ -40,6 +40,7 @@ void initializeTrackbars(GuiParameters* guiParameters){
     createTrackbar("upper2","trackbars",&(guiParameters->c_upper)[0][1],255);
     createTrackbar("upper3","trackbars",&(guiParameters->c_upper)[0][2],255);
     createTrackbar("area","trackbars",&(guiParameters->area),235);
+    createTrackbar("gap", "trackbars",&(guiParameters->gap),255);
     createTrackbar("canny","trackbars",&(guiParameters->cannyThreshold), 255);
     createTrackbar("houghThreshold","trackbars",&(guiParameters->houghThreshold), 255);
     createTrackbar("houghMinLength","trackbars",&(guiParameters->houghMinLength), 255);
@@ -57,6 +58,6 @@ void initializeGui(GuiParameters* guiParameters){
     moveWindow("BW", 0,350);
     namedWindow("canny", CV_WINDOW_KEEPRATIO);
     moveWindow("canny",0,0);
-    namedWindow("houghLines", CV_WINDOW_KEEPRATIO);
+//    namedWindow("houghLines", CV_WINDOW_KEEPRATIO);
     initializeTrackbars(guiParameters);
 }

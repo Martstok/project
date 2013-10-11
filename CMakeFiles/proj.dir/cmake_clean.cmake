@@ -3,6 +3,7 @@ FILE(REMOVE_RECURSE
   "CMakeFiles/proj.dir/image.cpp.o"
   "CMakeFiles/proj.dir/gui.cpp.o"
   "CMakeFiles/proj.dir/colorThresholding.cpp.o"
+  "CMakeFiles/proj.dir/target.cpp.o"
   "proj.pdb"
   "proj"
 )

@@ -41,11 +41,19 @@ gui.h
 /home/martin/Documents/prosjektoppgave/project/gui.h
 colorThresholding.h
 /home/martin/Documents/prosjektoppgave/project/colorThresholding.h
+target.h
+/home/martin/Documents/prosjektoppgave/project/target.h
 vector
 -
 opencv2/nonfree/features2d.hpp
 -
 opencv2/legacy/legacy.hpp
+-
+
+/home/martin/Documents/prosjektoppgave/project/target.h
+opencv2/core/core.hpp
+-
+vector
 -
 
 /usr/local/include/opencv2/calib3d/calib3d.hpp

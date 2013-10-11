@@ -7,6 +7,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include "gui.h"
 #include "colorThresholding.h"
+#include "target.h"
 
 #include <vector>
 #include <opencv2/nonfree/features2d.hpp>
@@ -26,16 +27,20 @@ void produceBinaries(Image *img);
 void initTrackbars();
 void surf(Image* img);
 vector<Vec2f> detectVerticalHoughLine(vector<Vec2f> lines);
+void generateContours(Image* img, Target* target);
+vector<int> findBiggestContours(vector<vector<Point> > contours, int contoursToFind);
 
 //================================MAIN================================
 
 int main(){
-    string sourceReference = "Windmill2.jpg";
+    string sourceReference = "Windmill6.jpg";
     string sourceType = "image";
     string sourceReference2 = "Windmill.jpg";
     string sourceType2 = "image";
     Image* img = new Image(sourceReference, sourceType);
     Image* prevImg = new Image;
+    Target* target = new Target;
+
 
     Image* img2 = new Image(sourceReference2, sourceType2);
     initializeGui(guiParameters);
@@ -44,9 +49,9 @@ int main(){
     img->cap >> img->raw;
     }
 
-    vector<Vec4i> lines;
-    vector<Vec2f> lines2;
-    vector<Vec2f> vLines;
+//    vector<Vec4i> lines;
+//    vector<Vec2f> lines2;
+//    vector<Vec2f> vLines;
     while(true){
         if (sourceType == "video"){
             img->prevRaw = img->raw;
@@ -63,74 +68,32 @@ int main(){
         pyrDown(img->gray, img->grayLR);
         imshow("frame", img->raw);
         blur(img->bw,img->bw,Size(guiParameters->blur+1,guiParameters->blur+1));
-        imshow("BW", img->bw);
-
-
-
-
         Mat M = getStructuringElement(MORPH_RECT, Size(guiParameters->erode+1, guiParameters->erode+1));
-        erode(img->bw, img->bw, M);
+        dilate(img->bw, img->bw, M);
         int cannyRatio = 3;
         Canny(img->bw, img->canny, guiParameters->cannyThreshold,guiParameters->cannyThreshold*cannyRatio,3);
 
-//        HoughLinesP(img->canny, lines, 1, CV_PI/180, guiParameters->houghThreshold+1, guiParameters->houghMinLength, guiParameters->houghMaxGap );
 
-        img->hough = Mat(1000,360, CV_8UC1, Scalar(0));
-        img->bw.copyTo(img->hough);
-        img->hough = Scalar(0);
 
-        HoughLines(img->canny, lines2, 1, CV_PI/180, guiParameters->houghThreshold );
-        cvtColor(img->canny,img->canny, CV_GRAY2BGR);
-        for( size_t i = 0; i < lines2.size(); i++ )
-        {
-          float rho = lines2[i][0], theta = lines2[i][1];
-          Point pt1, pt2;
-          double a = cos(theta), b = sin(theta);
-          double x0 = a*rho, y0 = b*rho;
-          pt1.x = cvRound(x0 + 1000*(-b));
-          pt1.y = cvRound(y0 + 1000*(a));
-          pt2.x = cvRound(x0 - 1000*(-b));
-          pt2.y = cvRound(y0 - 1000*(a));
-          line( img->canny, pt1, pt2, Scalar(0,0,255), 3, CV_AA);
-//          cout << "theta:" << theta/CV_PI*180 << endl;
-//          cout << "rho: " << rho << endl;
-          img->hough.at<Scalar>(abs(int(rho)),int(theta/CV_PI*180)) = 255;
-//          cout <<"here "<< img->hough.at<Scalar>(abs(int(rho)),int(theta/CV_PI*180))<<endl;
-//          cout << i << endl;
+        cvtColor(img->canny, img->canny, CV_GRAY2BGR);
+
+
+        //Contours begin here
+        generateContours(img, target);
+        int numOfContoursToFind = 3;
+        target->indicesOfBiggestContours = findBiggestContours(target->contours, numOfContoursToFind);
+        for(int i = 0; i < target->indicesOfBiggestContours.size(); i++){
+//        for(int index= 0; index < target->contours.size(); index++){
+            drawContours(img->canny, target->contours, target->indicesOfBiggestContours[i], cv::Scalar(255), 5, 8, vector<Vec4i>(),0, Point());
+
         }
 
- cout << "theta000:  " << endl;
 
-        vLines = detectVerticalHoughLine(lines2);
-         cout << "theta001:  " << vLines.size() << endl;
-        for( size_t i = 0; i < vLines.size(); i++ ){
-            cout << "almsost theta" << endl;
-            cout << "theta:  " << vLines.size() << endl;
-            char c = cvWaitKey(330);
-            float rho = vLines[i][0], theta = vLines[i][1];
-            Point pt1, pt2;
-            double a = cos(theta), b = sin(theta);
-            double x0 = a*rho, y0 = b*rho;
-            pt1.x = cvRound(x0 + 1000*(-b));
-            pt1.y = cvRound(y0 + 1000*(a));
-            pt2.x = cvRound(x0 - 1000*(-b));
-            pt2.y = cvRound(y0 - 1000*(a));
-//        line( img->hough, pt1, pt2, Scalar(0,0,255), 3, CV_AA);
-        }
-//        Mat temp;
-//        img->hough.copyTo(temp);
-//        for( size_t i = 0; i < lines.size(); i++ )
-//        {
-//          Vec4i l = lines[i];
-//          line( img->canny, Point(l[0], l[1]), Point(l[2], l[3]), Scalar(255,0,0), 3, CV_AA);
-//          circle(temp, Point(l[0], l[1]), 30, Scalar(10,0,0), -1);
-//          img->hough += temp;
-//          circle(temp, Point(l[2], l[3]), 30, Scalar(10,0,0), -1);
-//          img->hough += temp;
 
-//        }
 
-        imshow("houghLines", img->hough);
+
+
+        imshow("BW", img->bw);
         imshow("canny", img->canny);
         char c = cvWaitKey(33);
 //        c = cvWaitKey(99999999);
@@ -140,23 +103,189 @@ int main(){
 }
 
 
-
-vector<Vec2f> detectVerticalHoughLine(vector<Vec2f> lines){
-     cout << "theta2:  " << lines.size() << endl;
-    int ratio = 15;
-    vector<Vec2f> verticalLines;
-    for(size_t i = 0; i < lines.size(); i++) {
-//        if(abs(lines[i][1]) == 0.01 ){
-
-//            verticalLines.push_back(lines[i]);
-//            cout << "porke " << endl;
-//        }
+vector<int> findBiggestContours(vector<vector<Point> > contours, int numOfContoursToFind){
+    int size = min(numOfContoursToFind,(int)contours.size());
+    vector<int> indicesOfBiggestContours;
+    for (int j = 0; j < size ; j++){
+        int sizeOfBiggestContour = 0;
+        int indexOfBiggestContour = 0;
+        for (int i = 0; i < contours.size(); i++){
+            bool alreadyFound = false;
+            for(int k = 0; k < size; k++){
+                if(!indicesOfBiggestContours.empty() && indicesOfBiggestContours[k] == i)
+                    alreadyFound = true;
+            }
+            if (alreadyFound == true){
+                alreadyFound == false;
+                continue;
+            }
+            if(contours[i].size() > sizeOfBiggestContour){
+              sizeOfBiggestContour = contours[i].size();
+              indexOfBiggestContour = i;
+            }
+        }
+        indicesOfBiggestContours.push_back(indexOfBiggestContour);
     }
-     cout << "theta:  " << verticalLines.size() << endl;
-   return verticalLines;
+
+    return indicesOfBiggestContours;
+}
+
+
+
+void generateContours(Image* img, Target* target){
+    Mat aBw;
+//	Mat mask = Mat(m->src.size(), CV_8U);
+//	pyrUp(m->bw,m->bw);
+    img->bw.copyTo(aBw);
+    findContours(aBw,target->contours,CV_RETR_EXTERNAL,CV_CHAIN_APPROX_NONE);
+//    target->initContourVectors();
+//    target->cIdx=findBiggestContours(target->contours, amount);
+//        for(target->idxNr = 0; target->idxNr < amount; target->idxNr++){
+//              if(target->cIdx[target->idxNr]!=-1){
+//                  approxPolyDP( Mat(target->contours[target->cIdx[target->idxNr]]), target->contours[target->cIdx[target->idxNr]], 11, true );
+//                  target->bRect=boundingRect(Mat(target->contours[target->cIdx[target->idxNr]]));
+//                  convexHull(Mat(target->contours[target->cIdx[target->idxNr]]),target->hullP[target->cIdx[target->idxNr]],false,true);
+//                  convexHull(Mat(target->contours[target->cIdx[target->idxNr]]),target->hullI[target->cIdx[target->idxNr]],false,false);
+//                  approxPolyDP( Mat(target->hullP[target->cIdx[target->idxNr]]), target->hullP[target->cIdx[target->idxNr]], 18, true );
+//                  if(target->contours[target->cIdx[target->idxNr]].size()>3 ){
+//                      convexityDefects(target->contours[target->cIdx[target->idxNr]],target->hullI[target->cIdx[target->idxNr]],target->defects[target->cIdx[target->idxNr]]);
+//                      target->eleminateDefects(m);
+//                  }
+//                  double cArea = contourArea(target->contours[target->cIdx[target->idxNr]]);
+//                  double cLength = arcLength(target->contours[target->cIdx[target->idxNr]],true);
+//    // 		      cout << "area: "<< cArea << endl;
+//    // 		      cout << "length: "<< cLength << endl;
+//    // 		      cout << "A/L: "<< cArea/cLength << endl;
+//    // 		      drawContours(m->src, target->contours, target->cIdx[target->idxNr], cv::Scalar(255), CV_FILLED, 8, vector<Vec4i>(),0, Point());
+
+
+
+//                  //Std deviation
+//                  mask = Scalar(0);
+//                  drawContours(mask, target->contours, target->cIdx[target->idxNr], cv::Scalar(255), CV_FILLED, 8, vector<Vec4i>(),0, Point());
+//                  Mat mean, stddev;
+//                  meanStdDev(m->src, mean, stddev, mask);
+//    // 		      cout << stddev << endl;
+//    // 		      cout << stddev.at<double>(1,1) << endl;
+//                  if(stddev.at<double>(1,1) > stddevLimit){
+//                continue;
+//                  }
+//                  if( cArea/cLength > alLimit){
+//                continue;
+//                  }
+//                  if( cArea < 5000){
+//                continue;
+//                  }
+//                  if (faceDetect(m, mask, target)){
+//                continue;
+//                  }
+
+//                  bool isHand=target->detectIfHand();
+//                  target->printGestureInfo(m->src);
+//                  if(isHand){
+//                      target->getFingerTips(m);
+//                      target->drawFingerTips(m);
+//                      myDrawContours(m,target);
+//                  }
+
+//              }
+//        }
 }
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+vector<Vec2f> detectVerticalHoughLine(vector<Vec2f> lines){
+    int ratio = 15;
+    vector<Vec2f> verticalLines;
+    for(size_t i = 0; i < lines.size(); i++) {
+        if(abs(lines[i][1]/CV_PI*180)< 1){
+            verticalLines.push_back(lines[i]);
+        }
+    }
+    cout << "size: " << verticalLines.size()<< endl;
+   return verticalLines;
+}
+
+
+
+
+//-----------------------In Main: Draw long hough lines
+//HoughLines(img->canny, lines2, 1, CV_PI/180, guiParameters->houghThreshold );
+//cvtColor(img->canny,img->canny, CV_GRAY2BGR);
+//for( size_t i = 0; i < lines2.size(); i++ )
+//{
+//  float rho = lines2[i][0], theta = lines2[i][1];
+//  Point pt1, pt2;
+//  double a = cos(theta), b = sin(theta);
+//  double x0 = a*rho, y0 = b*rho;
+//  pt1.x = cvRound(x0 + 1000*(-b));
+//  pt1.y = cvRound(y0 + 1000*(a));
+//  pt2.x = cvRound(x0 - 1000*(-b));
+//  pt2.y = cvRound(y0 - 1000*(a));
+//  line( img->canny, pt1, pt2, Scalar(0,0,255), 3, CV_AA);
+////          img->hough.at<Scalar>(abs(int(rho)),int(theta/CV_PI*180)) = 255;           BUGGY
+//}
+
+
+
+//------------------------In Main: filter out vertical long hough lines
+//vLines = detectVerticalHoughLine(lines2);
+//for( size_t i = 0; i < vLines.size(); i++ ){
+//    cout << "theta:  " << vLines.size() << endl;
+//    float rho = vLines[i][0], theta = vLines[i][1];
+//    Point pt1, pt2;
+//    double a = cos(theta), b = sin(theta);
+//    double x0 = a*rho, y0 = b*rho;
+//    pt1.x = cvRound(x0 + 1000*(-b));
+//    pt1.y = cvRound(y0 + 1000*(a));
+//    pt2.x = cvRound(x0 - 1000*(-b));
+//    pt2.y = cvRound(y0 - 1000*(a));
+//    line( img->hough, pt1, pt2, Scalar(255,0,0), 3, CV_AA);
+//}
+
+
+//------------------------In Main: Draw short hough lines
+//        HoughLinesP(img->canny, lines, 1, CV_PI/180, guiParameters->houghThreshold+1, guiParameters->houghMinLength, guiParameters->houghMaxGap );
+//        img->hough.copyTo(temp);
+//        for( size_t i = 0; i < lines.size(); i++ )
+//        {
+//          Vec4i l = lines[i];
+//          line( img->canny, Point(l[0], l[1]), Point(l[2], l[3]), Scalar(255,0,0), 3, CV_AA);
+//        }

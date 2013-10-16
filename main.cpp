@@ -80,14 +80,44 @@ int main(){
 
         //Contours begin here
         generateContours(img, target);
-        int numOfContoursToFind = 3;
+        int numOfContoursToFind = 1;
         target->indicesOfBiggestContours = findBiggestContours(target->contours, numOfContoursToFind);
         for(int i = 0; i < target->indicesOfBiggestContours.size(); i++){
-//        for(int index= 0; index < target->contours.size(); index++){
-            drawContours(img->canny, target->contours, target->indicesOfBiggestContours[i], cv::Scalar(255), 5, 8, vector<Vec4i>(),0, Point());
+//            drawContours(img->canny, target->contours, target->indicesOfBiggestContours[i], cv::Scalar(255), 5, 8, vector<Vec4i>(),0, Point());
+            approxPolyDP(Mat(target->contours[target->indicesOfBiggestContours[i]]), target->contours[target->indicesOfBiggestContours[i]],11,true);
+//            drawContours(img->canny, target->contours, target->indicesOfBiggestContours[i], cv::Scalar(0,0,255), 3, 8, vector<Vec4i>(),0, Point());
+
+            convexHull(Mat(target->contours[target->indicesOfBiggestContours[i]]), target->hullP[target->indicesOfBiggestContours[i]], false, true);
+            convexHull(Mat(target->contours[target->indicesOfBiggestContours[i]]), target->hullI[target->indicesOfBiggestContours[i]], false, false);
+            if(target->hullI[target->indicesOfBiggestContours[i]].size() > 3){
+                convexityDefects(target->contours[target->indicesOfBiggestContours[i]],target->hullI[target->indicesOfBiggestContours[i]],target->defects[target->indicesOfBiggestContours[i]]);
+
+                drawContours(img->canny, target->hullP, target->indicesOfBiggestContours[i],Scalar(200,0,0),2, 8, vector<Vec4i>(), 0, Point());
+                approxPolyDP(Mat(target->hullP[target->indicesOfBiggestContours[i]]), target->hullP[target->indicesOfBiggestContours[i]], 10,true);
+//                drawContours(img->canny, target->defects[target->indicesOfBiggestContours[i]], Scalar(0,0,255), 2, 8, vector<Vec4i>(), 0, Point());
+
+
+                vector<Vec4i>::iterator d=target->defects[target->indicesOfBiggestContours[i]].begin();
+                while( d!=target->defects[target->indicesOfBiggestContours[i]].end() ) {
+                    Vec4i& v=(*d);
+                    int startidx=v[0]; Point ptStart(target->contours[target->indicesOfBiggestContours[i]][startidx] );
+                    int endidx=v[1]; Point ptEnd(target->contours[target->indicesOfBiggestContours[i]][endidx] );
+                    int faridx=v[2]; Point ptFar(target->contours[target->indicesOfBiggestContours[i]][faridx] );
+                    float depth = v[3] / 256;
+
+                    line( img->canny, ptStart, ptFar, Scalar(0,0,255), 1 );
+                    line( img->canny, ptEnd, ptFar, Scalar(0,255,0), 1 );
+                    circle( img->canny, ptFar,   4, Scalar(0,255,0), 2 );
+                    circle( img->canny, ptEnd,   4, Scalar(0,0,255), 2 );
+                    circle( img->canny, ptStart,   10, Scalar(255,0,0), 2 );
+                    d++;
+                    cout << "depth: " << depth << endl;
+                }
+
+            }
+
 
         }
-
 
 
 
@@ -138,7 +168,7 @@ void generateContours(Image* img, Target* target){
 //	pyrUp(m->bw,m->bw);
     img->bw.copyTo(aBw);
     findContours(aBw,target->contours,CV_RETR_EXTERNAL,CV_CHAIN_APPROX_NONE);
-//    target->initContourVectors();
+    target->initContourVectors();
 //    target->cIdx=findBiggestContours(target->contours, amount);
 //        for(target->idxNr = 0; target->idxNr < amount; target->idxNr++){
 //              if(target->cIdx[target->idxNr]!=-1){

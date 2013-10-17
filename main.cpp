@@ -8,6 +8,10 @@
 #include "gui.h"
 #include "colorThresholding.h"
 #include "target.h"
+#include "math.h"
+#define PI 3.14159265
+
+#include <sstream>
 
 #include <vector>
 #include <opencv2/nonfree/features2d.hpp>
@@ -19,6 +23,7 @@ using namespace cv;
 
 //Define variables
 GuiParameters* guiParameters = new GuiParameters;
+Mat M;
 
 
 //Declare functions
@@ -33,7 +38,7 @@ vector<int> findBiggestContours(vector<vector<Point> > contours, int contoursToF
 //================================MAIN================================
 
 int main(){
-    string sourceReference = "Windmill6.jpg";
+    string sourceReference = "Windmill7.jpg";
     string sourceType = "image";
     string sourceReference2 = "Windmill.jpg";
     string sourceType2 = "image";
@@ -68,7 +73,7 @@ int main(){
         pyrDown(img->gray, img->grayLR);
         imshow("frame", img->raw);
         blur(img->bw,img->bw,Size(guiParameters->blur+1,guiParameters->blur+1));
-        Mat M = getStructuringElement(MORPH_RECT, Size(guiParameters->erode+1, guiParameters->erode+1));
+        M = getStructuringElement(MORPH_RECT, Size(guiParameters->erode+1, guiParameters->erode+1));
         dilate(img->bw, img->bw, M);
         int cannyRatio = 3;
         Canny(img->bw, img->canny, guiParameters->cannyThreshold,guiParameters->cannyThreshold*cannyRatio,3);
@@ -81,38 +86,93 @@ int main(){
         //Contours begin here
         generateContours(img, target);
         int numOfContoursToFind = 1;
+        int currentIndex;
         target->indicesOfBiggestContours = findBiggestContours(target->contours, numOfContoursToFind);
         for(int i = 0; i < target->indicesOfBiggestContours.size(); i++){
-//            drawContours(img->canny, target->contours, target->indicesOfBiggestContours[i], cv::Scalar(255), 5, 8, vector<Vec4i>(),0, Point());
-            approxPolyDP(Mat(target->contours[target->indicesOfBiggestContours[i]]), target->contours[target->indicesOfBiggestContours[i]],11,true);
-//            drawContours(img->canny, target->contours, target->indicesOfBiggestContours[i], cv::Scalar(0,0,255), 3, 8, vector<Vec4i>(),0, Point());
+             currentIndex = target->indicesOfBiggestContours[i];
+//            drawContours(img->canny, target->contours, currentIndex, cv::Scalar(255), 5, 8, vector<Vec4i>(),0, Point());
+            approxPolyDP(Mat(target->contours[currentIndex]), target->contours[currentIndex],11,true);
+//            drawContours(img->canny, target->contours, currentIndex, cv::Scalar(0,0,255), 3, 8, vector<Vec4i>(),0, Point());
 
-            convexHull(Mat(target->contours[target->indicesOfBiggestContours[i]]), target->hullP[target->indicesOfBiggestContours[i]], false, true);
-            convexHull(Mat(target->contours[target->indicesOfBiggestContours[i]]), target->hullI[target->indicesOfBiggestContours[i]], false, false);
-            if(target->hullI[target->indicesOfBiggestContours[i]].size() > 3){
-                convexityDefects(target->contours[target->indicesOfBiggestContours[i]],target->hullI[target->indicesOfBiggestContours[i]],target->defects[target->indicesOfBiggestContours[i]]);
+            convexHull(Mat(target->contours[currentIndex]), target->hullP[currentIndex], false, true);
+            convexHull(Mat(target->contours[currentIndex]), target->hullI[currentIndex], false, false);
+            if(target->hullI[currentIndex].size() > 3){
+                convexityDefects(target->contours[currentIndex],target->hullI[currentIndex],target->defects[currentIndex]);
 
-                drawContours(img->canny, target->hullP, target->indicesOfBiggestContours[i],Scalar(200,0,0),2, 8, vector<Vec4i>(), 0, Point());
-                approxPolyDP(Mat(target->hullP[target->indicesOfBiggestContours[i]]), target->hullP[target->indicesOfBiggestContours[i]], 10,true);
-//                drawContours(img->canny, target->defects[target->indicesOfBiggestContours[i]], Scalar(0,0,255), 2, 8, vector<Vec4i>(), 0, Point());
+                drawContours(img->canny, target->hullP, currentIndex,Scalar(200,0,0),2, 8, vector<Vec4i>(), 0, Point());
+                approxPolyDP(Mat(target->hullP[currentIndex]), target->hullP[currentIndex], 10,true);
+//                drawContours(img->canny, target->defects[currentIndex], Scalar(0,0,255), 2, 8, vector<Vec4i>(), 0, Point());
 
 
-                vector<Vec4i>::iterator d=target->defects[target->indicesOfBiggestContours[i]].begin();
-                while( d!=target->defects[target->indicesOfBiggestContours[i]].end() ) {
-                    Vec4i& v=(*d);
-                    int startidx=v[0]; Point ptStart(target->contours[target->indicesOfBiggestContours[i]][startidx] );
-                    int endidx=v[1]; Point ptEnd(target->contours[target->indicesOfBiggestContours[i]][endidx] );
-                    int faridx=v[2]; Point ptFar(target->contours[target->indicesOfBiggestContours[i]][faridx] );
+                vector<Vec4i>::iterator d = target->defects[currentIndex].begin();
+
+                for(d = target->defects[currentIndex].begin(); d!= target->defects[currentIndex].end(); d++){
+
+                    Vec4i v = (*d);
+                    int startIndex=v[0];
+                    int endIndex=v[1];
+                    int farIndex=v[2];
+                    Point ptStart(target->contours[currentIndex][startIndex] );
+                    Point ptEnd(target->contours[currentIndex][endIndex] );
+                    Point ptFar(target->contours[currentIndex][farIndex] );
                     float depth = v[3] / 256;
-
                     line( img->canny, ptStart, ptFar, Scalar(0,0,255), 1 );
                     line( img->canny, ptEnd, ptFar, Scalar(0,255,0), 1 );
                     circle( img->canny, ptFar,   4, Scalar(0,255,0), 2 );
                     circle( img->canny, ptEnd,   4, Scalar(0,0,255), 2 );
                     circle( img->canny, ptStart,   10, Scalar(255,0,0), 2 );
-                    d++;
-                    cout << "depth: " << depth << endl;
+
+//                    double angle = atan((ptStart.y - ptEnd.y)/(ptEnd.x - ptStart.x))*180/PI;
+//                    double angle = atan2(ptFar.y - ptStart.y,ptStart.x - ptFar.x)*180/PI;
+//                      double angle = atan2(ptFar.y - ptEnd.y,ptEnd.x - ptFar.x)*180/PI;
+                      double angle1;
+                      double angle2;
+//                    if(angle < 0){
+//                        angle += 360;
+//                    }
+
+
+
+                    int averagedAngle;
+
+                    Vec4i vPrev = v;
+                    if(d != target->defects[currentIndex].begin()){
+                        vPrev = *(d-1);
+
+                    }
+                    else{
+                        vPrev=(*(target->defects[currentIndex].end()-1));
+                    }
+                    Point ptStartPrev(target->contours[currentIndex][vPrev[0]]);
+                    Point ptEndPrev(target->contours[currentIndex][vPrev[1]]);
+                    Point ptFarPrev(target->contours[currentIndex][vPrev[2]]);
+                    angle1 = atan2(ptFar.y - ptStart.y,ptStart.x - ptFar.x)*180/PI;
+
+
+                    angle2 = atan2(ptFarPrev.y - ptEndPrev.y,ptEndPrev.x - ptFarPrev.x)*180/PI;
+                    if(angle1 < 0){
+                        angle1 += 360;
+                    }
+                    if(angle2 < 0){
+                        angle2 += 360;
+                    }
+                    averagedAngle = (angle1+angle2)/2;
+                    averagedAngle = (angle1+angle2)/2;
+
+//                    if(d == target->defects[currentIndex].begin()+1){
+                        cout << "ptStart: " << ptStart << endl;
+                        cout << "ptEndPrev: " << ptEndPrev << endl;
+                        cout << "angle1: " << angle1 << endl;
+                        cout << "angle2: " << angle2 << endl;
+                        cout << "avgAngle: " << averagedAngle << endl << endl << endl;
+//                    }
+
+
+                    stringstream ss;
+                    ss << averagedAngle;
+                    putText(img->canny, ss.str(), Point(ptStart.x, ptStart.y), FONT_HERSHEY_PLAIN, 3, Scalar(255), 1,8,false);
                 }
+
 
             }
 
@@ -128,6 +188,7 @@ int main(){
         char c = cvWaitKey(33);
 //        c = cvWaitKey(99999999);
         if (c == 27) break;
+
     }
     return 0;
 }

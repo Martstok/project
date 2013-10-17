@@ -43,6 +43,10 @@ colorThresholding.h
 /home/martin/Documents/prosjektoppgave/project/colorThresholding.h
 target.h
 /home/martin/Documents/prosjektoppgave/project/target.h
+math.h
+/home/martin/Documents/prosjektoppgave/project/math.h
+sstream
+-
 vector
 -
 opencv2/nonfree/features2d.hpp

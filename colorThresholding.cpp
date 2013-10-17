@@ -6,12 +6,14 @@
 
 using namespace cv;
 
+
+
 void produceBinaries(Image* img, GuiParameters* guiParameters){
+    img->bwList.clear();    //Caution: Leaving this one out causes major memory leak!
 
-    Scalar lowerBound;
-    Scalar upperBound;
     for(int i=0;i<NSAMPLES;i++){
-
+        Scalar lowerBound;
+        Scalar upperBound;
 //        normalizeColors(img);
 //        lowerBound=Scalar( c_lower[i][0] , c_lower[i][1], c_lower[i][2] );
 //        upperBound=Scalar( c_upper[i][0] , c_upper[i][1], c_upper[i][2] );

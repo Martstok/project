@@ -8,4 +8,7 @@ void produceBinaries(Image*, GuiParameters*);
 
 
 
+
+
+
 #endif // COLORTHRESHOLDING_H

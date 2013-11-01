@@ -2,6 +2,8 @@
 #define GUI_H
 
 #define NSAMPLES 7
+
+class Image;
 struct GuiParameters
 {
     GuiParameters();
@@ -15,13 +17,13 @@ struct GuiParameters
     int houghMinLength;
     int houghMaxGap;
     int blur;
-    int erode;
+    int dilate;
 };
 
 
 void initializeGui(GuiParameters* guiParameters);
 void initializeTrackbars(GuiParameters*);
-
+void updateWindows(Image* img);
 
 
 

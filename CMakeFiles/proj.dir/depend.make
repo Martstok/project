@@ -26,14 +26,25 @@ CMakeFiles/proj.dir/colorThresholding.cpp.o: /usr/local/include/opencv2/video/vi
 
 CMakeFiles/proj.dir/gui.cpp.o: gui.cpp
 CMakeFiles/proj.dir/gui.cpp.o: gui.h
+CMakeFiles/proj.dir/gui.cpp.o: image.h
 CMakeFiles/proj.dir/gui.cpp.o: /usr/local/include/opencv2/core/core.hpp
 CMakeFiles/proj.dir/gui.cpp.o: /usr/local/include/opencv2/core/core_c.h
 CMakeFiles/proj.dir/gui.cpp.o: /usr/local/include/opencv2/core/mat.hpp
 CMakeFiles/proj.dir/gui.cpp.o: /usr/local/include/opencv2/core/operations.hpp
 CMakeFiles/proj.dir/gui.cpp.o: /usr/local/include/opencv2/core/types_c.h
 CMakeFiles/proj.dir/gui.cpp.o: /usr/local/include/opencv2/core/version.hpp
+CMakeFiles/proj.dir/gui.cpp.o: /usr/local/include/opencv2/features2d/features2d.hpp
+CMakeFiles/proj.dir/gui.cpp.o: /usr/local/include/opencv2/flann/config.h
+CMakeFiles/proj.dir/gui.cpp.o: /usr/local/include/opencv2/flann/defines.h
+CMakeFiles/proj.dir/gui.cpp.o: /usr/local/include/opencv2/flann/miniflann.hpp
 CMakeFiles/proj.dir/gui.cpp.o: /usr/local/include/opencv2/highgui/highgui.hpp
 CMakeFiles/proj.dir/gui.cpp.o: /usr/local/include/opencv2/highgui/highgui_c.h
+CMakeFiles/proj.dir/gui.cpp.o: /usr/local/include/opencv2/imgproc/imgproc.hpp
+CMakeFiles/proj.dir/gui.cpp.o: /usr/local/include/opencv2/imgproc/types_c.h
+CMakeFiles/proj.dir/gui.cpp.o: /usr/local/include/opencv2/nonfree/features2d.hpp
+CMakeFiles/proj.dir/gui.cpp.o: /usr/local/include/opencv2/video/background_segm.hpp
+CMakeFiles/proj.dir/gui.cpp.o: /usr/local/include/opencv2/video/tracking.hpp
+CMakeFiles/proj.dir/gui.cpp.o: /usr/local/include/opencv2/video/video.hpp
 
 CMakeFiles/proj.dir/image.cpp.o: image.cpp
 CMakeFiles/proj.dir/image.cpp.o: image.h
@@ -84,11 +95,25 @@ CMakeFiles/proj.dir/main.cpp.o: /usr/local/include/opencv2/video/background_segm
 CMakeFiles/proj.dir/main.cpp.o: /usr/local/include/opencv2/video/tracking.hpp
 CMakeFiles/proj.dir/main.cpp.o: /usr/local/include/opencv2/video/video.hpp
 
+CMakeFiles/proj.dir/target.cpp.o: image.h
 CMakeFiles/proj.dir/target.cpp.o: target.cpp
 CMakeFiles/proj.dir/target.cpp.o: target.h
 CMakeFiles/proj.dir/target.cpp.o: /usr/local/include/opencv2/core/core.hpp
+CMakeFiles/proj.dir/target.cpp.o: /usr/local/include/opencv2/core/core_c.h
 CMakeFiles/proj.dir/target.cpp.o: /usr/local/include/opencv2/core/mat.hpp
 CMakeFiles/proj.dir/target.cpp.o: /usr/local/include/opencv2/core/operations.hpp
 CMakeFiles/proj.dir/target.cpp.o: /usr/local/include/opencv2/core/types_c.h
 CMakeFiles/proj.dir/target.cpp.o: /usr/local/include/opencv2/core/version.hpp
+CMakeFiles/proj.dir/target.cpp.o: /usr/local/include/opencv2/features2d/features2d.hpp
+CMakeFiles/proj.dir/target.cpp.o: /usr/local/include/opencv2/flann/config.h
+CMakeFiles/proj.dir/target.cpp.o: /usr/local/include/opencv2/flann/defines.h
+CMakeFiles/proj.dir/target.cpp.o: /usr/local/include/opencv2/flann/miniflann.hpp
+CMakeFiles/proj.dir/target.cpp.o: /usr/local/include/opencv2/highgui/highgui.hpp
+CMakeFiles/proj.dir/target.cpp.o: /usr/local/include/opencv2/highgui/highgui_c.h
+CMakeFiles/proj.dir/target.cpp.o: /usr/local/include/opencv2/imgproc/imgproc.hpp
+CMakeFiles/proj.dir/target.cpp.o: /usr/local/include/opencv2/imgproc/types_c.h
+CMakeFiles/proj.dir/target.cpp.o: /usr/local/include/opencv2/nonfree/features2d.hpp
+CMakeFiles/proj.dir/target.cpp.o: /usr/local/include/opencv2/video/background_segm.hpp
+CMakeFiles/proj.dir/target.cpp.o: /usr/local/include/opencv2/video/tracking.hpp
+CMakeFiles/proj.dir/target.cpp.o: /usr/local/include/opencv2/video/video.hpp
 

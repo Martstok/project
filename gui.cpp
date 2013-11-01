@@ -1,4 +1,5 @@
 #include "gui.h"
+#include "image.h"
 #include <opencv2/highgui/highgui.hpp>
 #include <iostream>
 
@@ -17,11 +18,12 @@ GuiParameters::GuiParameters()
         c_upper[i][2]=255;
     }
     area = 0;
-    gap = 35;
+    gap = 50;
     cannyThreshold = 50;
     houghThreshold = 50;
     houghMinLength = 50;
     houghMaxGap = 10;
+    dilate = 10;
 }
 
 void initializeTrackbars(GuiParameters* guiParameters){
@@ -46,18 +48,24 @@ void initializeTrackbars(GuiParameters* guiParameters){
     createTrackbar("houghMinLength","trackbars",&(guiParameters->houghMinLength), 255);
     createTrackbar("houghMaxGap","trackbars",&(guiParameters->houghMaxGap), 255);
     createTrackbar("blur","trackbars",&(guiParameters->blur), 25);
-    createTrackbar("erode","trackbars",&(guiParameters->erode), 25);
+    createTrackbar("dilate","trackbars",&(guiParameters->dilate), 25);
 }
 
 
 void initializeGui(GuiParameters* guiParameters){
     namedWindow("frame", CV_WINDOW_AUTOSIZE);
-    namedWindow("BW", CV_WINDOW_KEEPRATIO);
-    namedWindow("trackbars",CV_WINDOW_KEEPRATIO);
-    moveWindow("trackbars", 355,0);
-    moveWindow("BW", 0,350);
-    namedWindow("canny", CV_WINDOW_KEEPRATIO);
+    namedWindow("BW", CV_WINDOW_AUTOSIZE);
+    namedWindow("trackbars",CV_WINDOW_AUTOSIZE);
+    moveWindow("trackbars", 600,0);
+    moveWindow("BW", 0,600);
+    namedWindow("canny", CV_WINDOW_AUTOSIZE);
     moveWindow("canny",0,0);
 //    namedWindow("houghLines", CV_WINDOW_KEEPRATIO);
     initializeTrackbars(guiParameters);
+}
+
+void updateWindows(Image* img){
+    imshow("frame", img->rawLR);
+    imshow("BW", img->bw);
+    imshow("canny", img->canny);
 }

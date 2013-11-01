@@ -12,5 +12,17 @@ Image::Image(string sourceReference)
 }
 Image::Image(string sourceReference, string sourceType)
 {
-    raw = imread(sourceReference);
+    if (sourceType=="video"){
+        cap = VideoCapture(sourceReference);
+    }
+    else if (sourceType=="image"){
+        raw = imread(sourceReference);
+    }
+}
+
+Mat downsample(cv::Mat inputImage, int upperLimit){
+    while(max(inputImage.cols, inputImage.rows) > upperLimit){
+        pyrDown(inputImage,inputImage);
+    }
+    return inputImage;
 }

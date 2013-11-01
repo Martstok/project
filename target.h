@@ -4,6 +4,7 @@
 #include <opencv2/core/core.hpp>
 #include <vector>
 
+class Image;
 class Target
 {
 public:
@@ -15,6 +16,12 @@ public:
 
     void initContourVectors();
     Target();
+
+    void generateContours(Image* img);
+
+    void findBiggestContours(int numOfContoursToFind);
+    void getResults(Image* img);
+    void analyzeGeometry(Image* img, int);
 };
 
 #endif // TARGET_H

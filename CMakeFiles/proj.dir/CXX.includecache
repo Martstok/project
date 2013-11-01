@@ -6,10 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/martin/Documents/prosjektoppgave/project/colorThresholding.h
-
-/home/martin/Documents/prosjektoppgave/project/gui.h
-
 /home/martin/Documents/prosjektoppgave/project/image.h
 opencv2/video/video.hpp
 -
@@ -22,36 +18,12 @@ vector
 opencv2/nonfree/features2d.hpp
 -
 
-/home/martin/Documents/prosjektoppgave/project/main.cpp
-iostream
--
-opencv2/core/core.hpp
--
-opencv2/highgui/highgui.hpp
--
-image.h
-/home/martin/Documents/prosjektoppgave/project/image.h
-string
--
-stdio.h
-/home/martin/Documents/prosjektoppgave/project/stdio.h
-opencv2/imgproc/imgproc.hpp
--
-gui.h
-/home/martin/Documents/prosjektoppgave/project/gui.h
-colorThresholding.h
-/home/martin/Documents/prosjektoppgave/project/colorThresholding.h
+/home/martin/Documents/prosjektoppgave/project/target.cpp
 target.h
 /home/martin/Documents/prosjektoppgave/project/target.h
-math.h
-/home/martin/Documents/prosjektoppgave/project/math.h
-sstream
--
-vector
--
-opencv2/nonfree/features2d.hpp
--
-opencv2/legacy/legacy.hpp
+image.h
+/home/martin/Documents/prosjektoppgave/project/image.h
+iostream
 -
 
 /home/martin/Documents/prosjektoppgave/project/target.h
@@ -59,12 +31,6 @@ opencv2/core/core.hpp
 -
 vector
 -
-
-/usr/local/include/opencv2/calib3d/calib3d.hpp
-opencv2/core/core.hpp
-/usr/local/include/opencv2/calib3d/opencv2/core/core.hpp
-opencv2/features2d/features2d.hpp
-/usr/local/include/opencv2/calib3d/opencv2/features2d/features2d.hpp
 
 /usr/local/include/opencv2/core/core.hpp
 opencv2/core/types_c.h
@@ -184,43 +150,9 @@ opencv2/core/core.hpp
 opencv2/imgproc/types_c.h
 /usr/local/include/opencv2/imgproc/opencv2/imgproc/types_c.h
 
-/usr/local/include/opencv2/imgproc/imgproc_c.h
-opencv2/core/core_c.h
-/usr/local/include/opencv2/imgproc/opencv2/core/core_c.h
-opencv2/imgproc/types_c.h
-/usr/local/include/opencv2/imgproc/opencv2/imgproc/types_c.h
-
 /usr/local/include/opencv2/imgproc/types_c.h
 opencv2/core/core_c.h
 /usr/local/include/opencv2/imgproc/opencv2/core/core_c.h
-
-/usr/local/include/opencv2/legacy/legacy.hpp
-opencv2/imgproc/imgproc.hpp
-/usr/local/include/opencv2/legacy/opencv2/imgproc/imgproc.hpp
-opencv2/imgproc/imgproc_c.h
-/usr/local/include/opencv2/legacy/opencv2/imgproc/imgproc_c.h
-opencv2/features2d/features2d.hpp
-/usr/local/include/opencv2/legacy/opencv2/features2d/features2d.hpp
-opencv2/calib3d/calib3d.hpp
-/usr/local/include/opencv2/legacy/opencv2/calib3d/calib3d.hpp
-opencv2/ml/ml.hpp
-/usr/local/include/opencv2/legacy/opencv2/ml/ml.hpp
-iosfwd
--
-limits
--
-
-/usr/local/include/opencv2/ml/ml.hpp
-opencv2/core/core.hpp
-/usr/local/include/opencv2/ml/opencv2/core/core.hpp
-limits.h
--
-map
--
-string
--
-iostream
--
 
 /usr/local/include/opencv2/nonfree/features2d.hpp
 opencv2/features2d/features2d.hpp

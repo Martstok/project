@@ -19,7 +19,7 @@ public:
     cv::Mat canny;
     cv::Mat prevRaw;
     cv::Mat flow;
-    cv::Mat srcLR;
+    cv::Mat rawLR;
     cv::Mat bw;
     cv::Mat blur;
     cv::Mat grayLR;
@@ -28,8 +28,10 @@ public:
     cv::Mat descriptor;
 
     std::vector<cv::Mat> bwList;
+
 };
 
+cv::Mat downsample(cv::Mat inputImage, int upperLimit);
 
 
 #endif // IMAGE_H

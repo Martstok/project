@@ -17,8 +17,8 @@ void produceBinaries(Image* img, GuiParameters* guiParameters){
 //        normalizeColors(img);
 //        lowerBound=Scalar( c_lower[i][0] , c_lower[i][1], c_lower[i][2] );
 //        upperBound=Scalar( c_upper[i][0] , c_upper[i][1], c_upper[i][2] );
-        lowerBound=Scalar( guiParameters->area,guiParameters->area,guiParameters->area );
-        upperBound=Scalar( guiParameters->area+guiParameters->gap,guiParameters->area+guiParameters->gap,guiParameters->area+guiParameters->gap);
+        lowerBound=Scalar( guiParameters->range,guiParameters->range,guiParameters->range );
+        upperBound=Scalar( guiParameters->range+guiParameters->gap,guiParameters->range+guiParameters->gap,guiParameters->range+guiParameters->gap);
         img->bwList.push_back(Mat(img->rawLR.rows,img->rawLR.cols,CV_8U));
         inRange(img->rawLR,lowerBound,upperBound,img->bwList[i]);
     }

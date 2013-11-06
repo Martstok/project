@@ -114,14 +114,12 @@ void Target::getResults(Image* img){
         convexHull(Mat(contours[currentIndex]), hullI[currentIndex], false, false);
         if(hullI[currentIndex].size() > 3){
             convexityDefects(contours[currentIndex],hullI[currentIndex],defects[currentIndex]);
-            cout << "index: " << currentIndex << endl;
             drawContours(img->canny, hullP, currentIndex,Scalar(200,0,0),2, 8, vector<Vec4i>(), 0, Point());
             approxPolyDP(Mat(hullP[currentIndex]), hullP[currentIndex], 10,true);
 //                drawContours(img->canny, defects[currentIndex], Scalar(0,0,255), 2, 8, vector<Vec4i>(), 0, Point());
 
 
             this->analyzeGeometry(img, currentIndex);
-
 
 
 
@@ -136,9 +134,9 @@ void Target::getResults(Image* img){
 }
 
 void Target::analyzeGeometry(Image* img, int currentIndex){
-    vector<Vec4i>::iterator d = defects[currentIndex].begin();
-    for(d = defects[currentIndex].begin(); d!= defects[currentIndex].end(); d++){
 
+    vector<Vec4i>::iterator d;
+    for(d = defects[currentIndex].begin(); d!= defects[currentIndex].end(); d++){
         Vec4i v = (*d);
         int startIndex=v[0];
         int endIndex=v[1];
@@ -146,6 +144,7 @@ void Target::analyzeGeometry(Image* img, int currentIndex){
         Point ptStart(contours[currentIndex][startIndex] );
         Point ptEnd(contours[currentIndex][endIndex] );
         Point ptFar(contours[currentIndex][farIndex] );
+
         float depth = v[3] / 256;
         line( img->canny, ptStart, ptFar, Scalar(0,0,255), 1 );
         line( img->canny, ptEnd, ptFar, Scalar(0,255,0), 1 );
@@ -204,17 +203,28 @@ void Target::analyzeGeometry(Image* img, int currentIndex){
         putText(img->canny, ss.str(), Point(ptStart.x, ptStart.y), FONT_HERSHEY_PLAIN, 3, Scalar(255), 1,8,false);
     }
 
-    d = defects[currentIndex].begin();
-    Point ptFarSum;
-    for(d = defects[currentIndex].begin(); d!= defects[currentIndex].end(); d++){
-         Vec4i v = (*d);
-         int farIndex=v[2];
-         Point ptFar(contours[currentIndex][farIndex] );
-         ptFarSum += ptFar;
-    }
-    int num = defects[currentIndex].size();
-    Point averagePtFar = Point(ptFarSum.x/num, ptFarSum.y/num);
-    cout << "pt: " << averagePtFar.x << endl;
-    circle(img->canny, averagePtFar, 20, Scalar(155,155,0), 2);
+    if (defects[currentIndex].size() > 0){
+        d = defects[currentIndex].begin();
+        Point ptFarSum;
+        for(d = defects[currentIndex].begin(); d!= defects[currentIndex].end(); d++){
+             Vec4i v = (*d);
+             int farIndex=v[2];
+             Point ptFar(contours[currentIndex][farIndex] );
+             ptFarSum += ptFar;
+        }
 
+        int num = defects[currentIndex].size();
+        Point averagePtFar = Point(ptFarSum.x/num, ptFarSum.y/num);
+
+        circle(img->canny, averagePtFar, 20, Scalar(155,155,0), 2);
+    }
+
+}
+
+double Target::getAreaToCircumferenceRatio(int currentIndex){
+    double area = contourArea(this->contours[currentIndex]);
+    double circumference = arcLength(this->contours[currentIndex],true);
+    double ratio = circumference/area;
+    cout << "area, circ: " << area << ", " << circumference << endl;
+    return ratio;
 }

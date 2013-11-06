@@ -10,7 +10,7 @@ struct GuiParameters
     int c_lower[NSAMPLES][3];
     int c_upper[NSAMPLES][3];
     int avgColor[NSAMPLES][3];
-    int area;
+    int range;
     int gap;
     int cannyThreshold;
     int houghThreshold;

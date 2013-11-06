@@ -29,6 +29,7 @@ Mat M;
 
 
 //Declare functions
+void func(GuiParameters* guiParameters, Target* target, Image* img);
 void normalizeColors(Image *img);
 void produceBinaries(Image *img);
 void initTrackbars();
@@ -41,12 +42,12 @@ vector<int> findBiggestContours(vector<vector<Point> > contours, int contoursToF
 
 int main(){
     clock_t start_time = clock();
-    string sourceReference = "Windmill6.jpg";
+    string sourceReference = "Windmill9.jpg";
     string sourceType = "image";
     string sourceReference2 = "Windmill.jpg";
     string sourceType2 = "image";
-//    sourceType = "video";
-//    sourceReference = "video.mp4";
+    sourceType = "video";
+    sourceReference = "video2.mp4";
     Image* img = new Image(sourceReference, sourceType);
     Image* prevImg = new Image;
     Target* target = new Target;
@@ -63,7 +64,7 @@ int main(){
 //    vector<Vec2f> lines2;
 //    vector<Vec2f> vLines;
     while(true){
-        cout << "Last loop time:" << float(clock() - start_time) << endl;
+//        cout << "Last loop time:" << float(clock() - start_time) << endl;
         start_time = clock();
         if (sourceType == "video"){
             img->prevRaw = img->raw;
@@ -78,6 +79,17 @@ int main(){
 
 //        pyrDown(img->raw, img->rawLR);
 //        blur(img->rawLR,img->blur,Size(5,5));
+
+
+
+
+
+        //Contours begin here
+        int numOfContoursToFind = 1;
+
+//        func(guiParameters, target, img);
+
+
         produceBinaries(img, guiParameters);
         cvtColor(img->rawLR, img->gray, CV_BGR2GRAY);
 //        pyrDown(img->gray, img->grayLR);
@@ -86,34 +98,67 @@ int main(){
         dilate(img->bw, img->bw, M);
         int cannyRatio = 3;
         Canny(img->bw, img->canny, guiParameters->cannyThreshold,guiParameters->cannyThreshold*cannyRatio,3);
-
-
-
         cvtColor(img->canny, img->canny, CV_GRAY2BGR);
-
-
-        //Contours begin here
         target->generateContours(img);
-
-        int numOfContoursToFind = 1;
-        int currentIndex;
         target->findBiggestContours(numOfContoursToFind);
+        double ratio = target->getAreaToCircumferenceRatio(target->indicesOfBiggestContours[0]);
+        cout << "ratio: " << ratio << endl;
+        Moments m;
+        m = moments(target->contours[target->indicesOfBiggestContours[0]],false);
+//        cout << "m: " << m.m00 << m.m10 << m.m01 << m.m20<< m.m11 << m.m02 << m.m30 << m.m21 << m.m12<< m.m03 << endl;
+
 //        target->indicesOfBiggestContours = findBiggestContours(target->contours, numOfContoursToFind);
         target->getResults(img);
-
 
         updateWindows(img);
         char c = cvWaitKey(10);
 //        c = cvWaitKey(99999999);
 //        if (c == 27) break;
-
     }
-    return 0;
 }
 
 
 
+void func(GuiParameters* guiParameters, Target* target, Image* img){
+    int numOfContoursToFind = 1;
+    int currentIndex;
+    double bestRatio = 0;
+    int bestArea = 0;
+    int bestRange = 0;
+    for(guiParameters->range = 0; guiParameters->range <= 255; guiParameters->range += 10){
 
+        produceBinaries(img, guiParameters);
+        cvtColor(img->rawLR, img->gray, CV_BGR2GRAY);
+//        pyrDown(img->gray, img->grayLR);
+        blur(img->bw,img->bw,Size(guiParameters->blur+1,guiParameters->blur+1));
+        M = getStructuringElement(MORPH_RECT, Size(guiParameters->dilate+1, guiParameters->dilate+1));
+        dilate(img->bw, img->bw, M);
+        int cannyRatio = 3;
+        Canny(img->bw, img->canny, guiParameters->cannyThreshold,guiParameters->cannyThreshold*cannyRatio,3);
+        cvtColor(img->canny, img->canny, CV_GRAY2BGR);
+        target->generateContours(img);
+        target->findBiggestContours(numOfContoursToFind);
+        int currentIndex;
+        double ratio = 0;
+        int area = 0;
+        for(int i = 0; i < target->indicesOfBiggestContours.size(); i++){
+             currentIndex = target->indicesOfBiggestContours[i];
+             ratio = target->getAreaToCircumferenceRatio(currentIndex);
+             area = contourArea(target->contours[currentIndex]);
+        cout << "range, ratio: " << guiParameters->range << ",  " << ratio << endl;
+
+        }
+
+        if (area>bestArea && ratio>0.075 && ratio<0.15){
+            bestRatio = ratio;
+            bestRange = guiParameters->range;
+            bestArea = area;
+        }
+    }
+    cout << "best area " << bestRange << endl;
+    guiParameters->range = bestRange;
+
+}
 
 
 

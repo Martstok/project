@@ -22,6 +22,7 @@ public:
     void findBiggestContours(int numOfContoursToFind);
     void getResults(Image* img);
     void analyzeGeometry(Image* img, int);
+    double getAreaToCircumferenceRatio(int currentIndex);
 };
 
 #endif // TARGET_H

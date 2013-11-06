@@ -17,7 +17,7 @@ GuiParameters::GuiParameters()
         c_lower[i][2]=200;
         c_upper[i][2]=255;
     }
-    area = 0;
+    range = 0;
     gap = 50;
     cannyThreshold = 50;
     houghThreshold = 50;
@@ -41,7 +41,7 @@ void initializeTrackbars(GuiParameters* guiParameters){
     createTrackbar("upper1","trackbars",&(guiParameters->c_upper)[0][0],255);
     createTrackbar("upper2","trackbars",&(guiParameters->c_upper)[0][1],255);
     createTrackbar("upper3","trackbars",&(guiParameters->c_upper)[0][2],255);
-    createTrackbar("area","trackbars",&(guiParameters->area),235);
+    createTrackbar("range","trackbars",&(guiParameters->range),235);
     createTrackbar("gap", "trackbars",&(guiParameters->gap),255);
     createTrackbar("canny","trackbars",&(guiParameters->cannyThreshold), 255);
     createTrackbar("houghThreshold","trackbars",&(guiParameters->houghThreshold), 255);

@@ -28,19 +28,19 @@ GuiParameters::GuiParameters()
 
 void initializeTrackbars(GuiParameters* guiParameters){
     for(int i=0;i<NSAMPLES;i++){
-        guiParameters->c_lower[i][0]=200;
+        guiParameters->c_lower[i][0]=0;
         guiParameters->c_upper[i][0]=255;
-        guiParameters->c_lower[i][1]=200;
-        guiParameters->c_upper[i][1]=255;
-        guiParameters->c_lower[i][2]=200;
+        guiParameters->c_lower[i][1]=0;
+        guiParameters->c_upper[i][1]=50;
+        guiParameters->c_lower[i][2]=0;
         guiParameters->c_upper[i][2]=255;
     }
-    createTrackbar("lower1","trackbars",&(guiParameters->c_lower)[0][0],255);
-    createTrackbar("lower2","trackbars",&(guiParameters->c_lower)[0][1],255);
-    createTrackbar("lower3","trackbars",&(guiParameters->c_lower)[0][2],255);
-    createTrackbar("upper1","trackbars",&(guiParameters->c_upper)[0][0],255);
-    createTrackbar("upper2","trackbars",&(guiParameters->c_upper)[0][1],255);
-    createTrackbar("upper3","trackbars",&(guiParameters->c_upper)[0][2],255);
+    createTrackbar("lowerH","trackbars",&(guiParameters->c_lower)[0][0],255);
+    createTrackbar("lowerS","trackbars",&(guiParameters->c_lower)[0][1],255);
+    createTrackbar("lowerV","trackbars",&(guiParameters->c_lower)[0][2],255);
+    createTrackbar("upperH","trackbars",&(guiParameters->c_upper)[0][0],255);
+    createTrackbar("upperS","trackbars",&(guiParameters->c_upper)[0][1],255);
+    createTrackbar("upperV","trackbars",&(guiParameters->c_upper)[0][2],255);
     createTrackbar("range","trackbars",&(guiParameters->range),235);
     createTrackbar("gap", "trackbars",&(guiParameters->gap),255);
     createTrackbar("canny","trackbars",&(guiParameters->cannyThreshold), 255);

@@ -105,7 +105,7 @@ void Target::findBiggestContours(int numOfContoursToFind){
 void Target::getResults(Image* img){
     int currentIndex;
     for(int i = 0; i < indicesOfBiggestContours.size(); i++){
-         currentIndex = indicesOfBiggestContours[i];
+        currentIndex = indicesOfBiggestContours[i];
 //            drawContours(img->canny, contours, currentIndex, cv::Scalar(255), 5, 8, vector<Vec4i>(),0, Point());
         approxPolyDP(Mat(contours[currentIndex]), contours[currentIndex],11,true);
 //            drawContours(img->canny, contours, currentIndex, cv::Scalar(0,0,255), 3, 8, vector<Vec4i>(),0, Point());
@@ -224,7 +224,10 @@ void Target::analyzeGeometry(Image* img, int currentIndex){
 double Target::getAreaToCircumferenceRatio(int currentIndex){
     double area = contourArea(this->contours[currentIndex]);
     double circumference = arcLength(this->contours[currentIndex],true);
+    if (area==0){
+        return 0;
+    }
     double ratio = circumference/area;
-    cout << "area, circ: " << area << ", " << circumference << endl;
+//    cout << "area, circ: " << area << ", " << circumference << endl;
     return ratio;
 }

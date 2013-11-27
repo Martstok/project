@@ -3,6 +3,8 @@
 #include "colorThresholding.h"
 #include "image.h"
 #include "gui.h"
+#include <iostream>
+using namespace std;
 
 using namespace cv;
 
@@ -29,6 +31,28 @@ void produceBinaries(Image* img, GuiParameters* guiParameters){
 //    }
 }
 
+
+// Using HSV
+
+void produceBinariesHSV(Image* img, GuiParameters* guiParameters){
+    img->bwList.clear();    //Caution: Leaving this one out causes major memory leak!
+
+    for(int i=0;i<NSAMPLES;i++){
+        Scalar lowerBound;
+        Scalar upperBound;
+//        normalizeColors(img);
+        lowerBound=Scalar( guiParameters->c_lower[i][0] , guiParameters->c_lower[i][1], guiParameters->c_lower[i][2] );
+        upperBound=Scalar( guiParameters->c_upper[i][0] , guiParameters->c_upper[i][1], guiParameters->c_upper[i][2] );
+//        lowerBound=Scalar( guiParameters->range,guiParameters->range,guiParameters->range );
+//        upperBound=Scalar( guiParameters->range+guiParameters->gap,guiParameters->range+guiParameters->gap,guiParameters->range+guiParameters->gap);
+        img->bwList.push_back(Mat(img->rawLR.rows,img->rawLR.cols,CV_8U));
+        inRange(img->hsv,lowerBound,upperBound,img->bwList[i]);
+    }
+    img->bwList[0].copyTo(img->bw);
+//    for(int i=1;i<NSAMPLES;i++){
+//        img->bw+=img->bwList[i];
+//    }
+}
 
 
 

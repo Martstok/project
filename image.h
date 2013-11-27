@@ -24,6 +24,7 @@ public:
     cv::Mat blur;
     cv::Mat grayLR;
     cv::Mat hough;
+    cv::Mat hsv;
     std::vector<cv::KeyPoint> keypoints;
     cv::Mat descriptor;
 

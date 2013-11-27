@@ -5,7 +5,7 @@
 class Image;
 class GuiParameters;
 void produceBinaries(Image*, GuiParameters*);
-
+void produceBinariesHSV(Image* img, GuiParameters* guiParameters);
 
 
 

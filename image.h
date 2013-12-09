@@ -14,6 +14,7 @@ public:
     Image(std::string);
     Image(std::string, std::string);
     cv::VideoCapture cap;
+    cv::Mat result;
     cv::Mat raw;
     cv::Mat gray;
     cv::Mat canny;
@@ -27,6 +28,8 @@ public:
     cv::Mat hsv;
     std::vector<cv::KeyPoint> keypoints;
     cv::Mat descriptor;
+    cv::Mat temp;
+    cv::Mat temp2;
 
     std::vector<cv::Mat> bwList;
 

@@ -42,12 +42,12 @@ vector<int> findBiggestContours(vector<vector<Point> > contours, int contoursToF
 
 int main(){
     clock_t start_time = clock();
-    string sourceReference = "Windmill12.jpg";
+    string sourceReference = "Windmill11.jpg";
     string sourceType = "image";
     string sourceReference2 = "Windmill.jpg";
     string sourceType2 = "image";
-    sourceType = "video";
-    sourceReference = "video2.mp4";
+//    sourceType = "video";
+//    sourceReference = "video2.mp4";
     Image* img = new Image(sourceReference, sourceType);
     Image* prevImg = new Image;
     Target* target = new Target;
@@ -59,6 +59,8 @@ int main(){
     if (sourceType == "video"){
     img->cap >> img->raw;
     }
+
+
 
 //    vector<Vec4i> lines;
 //    vector<Vec2f> lines2;
@@ -89,26 +91,27 @@ int main(){
         // ========Trasform to hsv color space here
         cvtColor(img->rawLR, img->hsv, CV_BGR2HSV);
         //Autonomous search
-        func(guiParameters, target, img);
+//        func(guiParameters, target, img);
 
 
         produceBinariesHSV(img, guiParameters);
-
 
         cvtColor(img->rawLR, img->gray, CV_BGR2GRAY);
 //        pyrDown(img->gray, img->grayLR);
         blur(img->bw,img->bw,Size(guiParameters->blur+1,guiParameters->blur+1));
         M = getStructuringElement(MORPH_RECT, Size(guiParameters->dilate+1, guiParameters->dilate+1));
         dilate(img->bw, img->bw, M);
-        int cannyRatio = 3;
-        Canny(img->bw, img->canny, guiParameters->cannyThreshold,guiParameters->cannyThreshold*cannyRatio,3);
-        cvtColor(img->canny, img->canny, CV_GRAY2BGR);
+        if (guiParameters->cannyThreshold < 1){
+            erode(img->bw, img->bw, M);
+        }
+        img->bw.copyTo(img->result);
+        cvtColor(img->result,img->result, CV_GRAY2BGR);
         target->generateContours(img);
         target->findBiggestContours(numOfContoursToFind);
 
         if(target->indicesOfBiggestContours.size() > 0){
             double ratio = target->getAreaToCircumferenceRatio(target->indicesOfBiggestContours[0]);
-            cout << "ratio: " << ratio << endl;
+//            cout << "ratio: " << ratio << endl;
             Moments m;
             m = moments(target->contours[target->indicesOfBiggestContours[0]],false);
         }
@@ -145,9 +148,6 @@ void func(GuiParameters* guiParameters, Target* target, Image* img){
         blur(img->bw,img->bw,Size(guiParameters->blur+1,guiParameters->blur+1));
         M = getStructuringElement(MORPH_RECT, Size(guiParameters->dilate+1, guiParameters->dilate+1));
         dilate(img->bw, img->bw, M);
-        int cannyRatio = 3;
-        Canny(img->bw, img->canny, guiParameters->cannyThreshold,guiParameters->cannyThreshold*cannyRatio,3);
-        cvtColor(img->canny, img->canny, CV_GRAY2BGR);
         target->generateContours(img);
         target->findBiggestContours(numOfContoursToFind);
         int currentIndex;

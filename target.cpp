@@ -106,17 +106,17 @@ void Target::getResults(Image* img){
     int currentIndex;
     for(int i = 0; i < indicesOfBiggestContours.size(); i++){
         currentIndex = indicesOfBiggestContours[i];
-//            drawContours(img->canny, contours, currentIndex, cv::Scalar(255), 5, 8, vector<Vec4i>(),0, Point());
+//            drawContours(img->result, contours, currentIndex, cv::Scalar(255), 5, 8, vector<Vec4i>(),0, Point());
         approxPolyDP(Mat(contours[currentIndex]), contours[currentIndex],11,true);
-//            drawContours(img->canny, contours, currentIndex, cv::Scalar(0,0,255), 3, 8, vector<Vec4i>(),0, Point());
+//            drawContours(img->result, contours, currentIndex, cv::Scalar(0,0,255), 3, 8, vector<Vec4i>(),0, Point());
 
         convexHull(Mat(contours[currentIndex]), hullP[currentIndex], false, true);
         convexHull(Mat(contours[currentIndex]), hullI[currentIndex], false, false);
         if(hullI[currentIndex].size() > 3){
             convexityDefects(contours[currentIndex],hullI[currentIndex],defects[currentIndex]);
-            drawContours(img->canny, hullP, currentIndex,Scalar(200,0,0),2, 8, vector<Vec4i>(), 0, Point());
+            drawContours(img->result, hullP, currentIndex,Scalar(200,0,0),2, 8, vector<Vec4i>(), 0, Point());
             approxPolyDP(Mat(hullP[currentIndex]), hullP[currentIndex], 10,true);
-//                drawContours(img->canny, defects[currentIndex], Scalar(0,0,255), 2, 8, vector<Vec4i>(), 0, Point());
+//                drawContours(img->result, defects[currentIndex], Scalar(0,0,255), 2, 8, vector<Vec4i>(), 0, Point());
 
 
             this->analyzeGeometry(img, currentIndex);
@@ -146,11 +146,11 @@ void Target::analyzeGeometry(Image* img, int currentIndex){
         Point ptFar(contours[currentIndex][farIndex] );
 
         float depth = v[3] / 256;
-        line( img->canny, ptStart, ptFar, Scalar(0,0,255), 1 );
-        line( img->canny, ptEnd, ptFar, Scalar(0,255,0), 1 );
-        circle( img->canny, ptFar,   4, Scalar(0,255,0), 2 );
-        circle( img->canny, ptEnd,   4, Scalar(0,0,255), 2 );
-        circle( img->canny, ptStart,   10, Scalar(255,0,0), 2 );
+        line( img->result, ptStart, ptFar, Scalar(0,0,255), 2 );
+        line( img->result, ptEnd, ptFar, Scalar(0,255,0), 2 );
+        circle( img->result, ptFar,   4, Scalar(0,255,0), 2 );
+        circle( img->result, ptEnd,   4, Scalar(0,0,255), 2 );
+        circle( img->result, ptStart,   10, Scalar(255,0,0), 2 );
 
 //                    double angle = atan((ptStart.y - ptEnd.y)/(ptEnd.x - ptStart.x))*180/PI;
 //                    double angle = atan2(ptFar.y - ptStart.y,ptStart.x - ptFar.x)*180/PI;
@@ -197,10 +197,24 @@ void Target::analyzeGeometry(Image* img, int currentIndex){
 //                        cout << "avgAngle: " << averagedAngle << endl << endl << endl;
 ////                    }
 
-
         stringstream ss;
         ss << averagedAngle;
-        putText(img->canny, ss.str(), Point(ptStart.x, ptStart.y), FONT_HERSHEY_PLAIN, 3, Scalar(255), 1,8,false);
+        int posX, posY;
+        if (ptStart.x > img->bw.cols-60){
+            posX = img->bw.cols-60;
+
+        }
+        else{
+            posX = ptStart.x;
+        }
+        if (ptStart.y < 30){
+            posY = 30;
+
+        }
+        else{
+            posY = ptStart.y;
+        }
+        putText(img->result, ss.str(), Point(posX, posY), FONT_HERSHEY_PLAIN, 2, Scalar(0,0,255), 2,8,false);
     }
 
     if (defects[currentIndex].size() > 0){
@@ -216,7 +230,7 @@ void Target::analyzeGeometry(Image* img, int currentIndex){
         int num = defects[currentIndex].size();
         Point averagePtFar = Point(ptFarSum.x/num, ptFarSum.y/num);
 
-        circle(img->canny, averagePtFar, 20, Scalar(155,155,0), 2);
+        circle(img->result, averagePtFar, 5, Scalar(255,0,0), 2);
     }
 
 }

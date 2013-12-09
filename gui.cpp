@@ -58,8 +58,8 @@ void initializeGui(GuiParameters* guiParameters){
     namedWindow("trackbars",CV_WINDOW_AUTOSIZE);
     moveWindow("trackbars", 600,0);
     moveWindow("BW", 0,600);
-    namedWindow("canny", CV_WINDOW_AUTOSIZE);
-    moveWindow("canny",0,0);
+    namedWindow("result", CV_WINDOW_AUTOSIZE);
+    moveWindow("result",0,0);
 //    namedWindow("houghLines", CV_WINDOW_KEEPRATIO);
     initializeTrackbars(guiParameters);
 }
@@ -67,5 +67,5 @@ void initializeGui(GuiParameters* guiParameters){
 void updateWindows(Image* img){
     imshow("frame", img->rawLR);
     imshow("BW", img->bw);
-    imshow("canny", img->canny);
+    imshow("result", img->result);
 }

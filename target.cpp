@@ -1,6 +1,9 @@
 #include "target.h"
 #include "image.h"
+#include "fileIO.h"
 #include <iostream>
+#include <string>
+#include <sstream>
 
 using namespace std;
 using namespace cv;
@@ -106,7 +109,7 @@ void Target::getResults(Image* img){
     int currentIndex;
     for(int i = 0; i < indicesOfBiggestContours.size(); i++){
         currentIndex = indicesOfBiggestContours[i];
-//            drawContours(img->result, contours, currentIndex, cv::Scalar(255), 5, 8, vector<Vec4i>(),0, Point());
+//            drawContours(img->result, contours, currentIndex, cv::Scalar(0,0,255), 5, 8, vector<Vec4i>(),0, Point());
         approxPolyDP(Mat(contours[currentIndex]), contours[currentIndex],11,true);
 //            drawContours(img->result, contours, currentIndex, cv::Scalar(0,0,255), 3, 8, vector<Vec4i>(),0, Point());
 
@@ -116,7 +119,7 @@ void Target::getResults(Image* img){
             convexityDefects(contours[currentIndex],hullI[currentIndex],defects[currentIndex]);
             drawContours(img->result, hullP, currentIndex,Scalar(200,0,0),2, 8, vector<Vec4i>(), 0, Point());
             approxPolyDP(Mat(hullP[currentIndex]), hullP[currentIndex], 10,true);
-//                drawContours(img->result, defects[currentIndex], Scalar(0,0,255), 2, 8, vector<Vec4i>(), 0, Point());
+//            drawContours(img->result, defects[currentIndex], Scalar(0,0,255), 2, 8, vector<Vec4i>(), 0, Point());
 
 
             this->analyzeGeometry(img, currentIndex);
@@ -135,6 +138,7 @@ void Target::getResults(Image* img){
 
 void Target::analyzeGeometry(Image* img, int currentIndex){
 
+    // Need to iterate through every convexity defect
     vector<Vec4i>::iterator d;
     for(d = defects[currentIndex].begin(); d!= defects[currentIndex].end(); d++){
         Vec4i v = (*d);
@@ -217,6 +221,7 @@ void Target::analyzeGeometry(Image* img, int currentIndex){
         putText(img->result, ss.str(), Point(posX, posY), FONT_HERSHEY_PLAIN, 2, Scalar(0,0,255), 2,8,false);
     }
 
+
     if (defects[currentIndex].size() > 0){
         d = defects[currentIndex].begin();
         Point ptFarSum;
@@ -231,6 +236,12 @@ void Target::analyzeGeometry(Image* img, int currentIndex){
         Point averagePtFar = Point(ptFarSum.x/num, ptFarSum.y/num);
 
         circle(img->result, averagePtFar, 5, Scalar(255,0,0), 2);
+        stringstream ssX;
+        ssX << averagePtFar.x;
+        printToFile(ssX.str(), "hubPoXs.txt");
+        stringstream ssY;
+        ssY << averagePtFar.y;
+        printToFile(ssY.str(), "hubPosY.txt");
     }
 
 }
@@ -241,6 +252,7 @@ double Target::getAreaToCircumferenceRatio(int currentIndex){
     if (area==0){
         return 0;
     }
+
     double ratio = circumference/area;
 //    cout << "area, circ: " << area << ", " << circumference << endl;
     return ratio;

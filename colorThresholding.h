@@ -4,11 +4,9 @@
 #define NSAMPLES 7
 class Image;
 class GuiParameters;
-void produceBinaries(Image*, GuiParameters*);
+
+//Performs color thresholding using thresholding bounds stored in guiParameters. A binary segmented image is produced in the Image class.
 void produceBinariesHSV(Image* img, GuiParameters* guiParameters);
-
-
-
 
 
 #endif // COLORTHRESHOLDING_H

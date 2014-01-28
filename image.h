@@ -7,14 +7,18 @@
 #include <vector>
 #include <opencv2/nonfree/features2d.hpp>
 
+
+
+// Stores all images derived from the original. Should include filename upon contruction.
 class Image
 {
 public:
     Image();
-    Image(std::string);
-    Image(std::string, std::string);
+    Image(std::string); //String defines filename. Input is assumed to be video.
+    Image(std::string, std::string);    // 1st string defines filename. Second is either "image" or "video".
     cv::VideoCapture cap;
     cv::Mat result;
+    cv::Mat result2;
     cv::Mat raw;
     cv::Mat gray;
     cv::Mat canny;
@@ -30,11 +34,13 @@ public:
     cv::Mat descriptor;
     cv::Mat temp;
     cv::Mat temp2;
-
     std::vector<cv::Mat> bwList;
+    cv::Mat plot;
 
 };
 
+
+// Downscales the image until amount of both rows and columns are less than upperLimit. Uses Gaussian pyramid (blur) for each iteration.
 cv::Mat downsample(cv::Mat inputImage, int upperLimit);
 
 

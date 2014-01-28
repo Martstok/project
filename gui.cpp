@@ -17,13 +17,10 @@ GuiParameters::GuiParameters()
         c_lower[i][2]=200;
         c_upper[i][2]=255;
     }
-    range = 0;
-    gap = 50;
-    cannyThreshold = 50;
-    houghThreshold = 50;
-    houghMinLength = 50;
-    houghMaxGap = 10;
     dilate = 10;
+    houghThreshold = 1;
+    houghMaxGap = 10;
+    houghMinLength = 50;
 }
 
 void initializeTrackbars(GuiParameters* guiParameters){
@@ -41,14 +38,10 @@ void initializeTrackbars(GuiParameters* guiParameters){
     createTrackbar("upperH","trackbars",&(guiParameters->c_upper)[0][0],255);
     createTrackbar("upperS","trackbars",&(guiParameters->c_upper)[0][1],255);
     createTrackbar("upperV","trackbars",&(guiParameters->c_upper)[0][2],255);
-    createTrackbar("range","trackbars",&(guiParameters->range),235);
-    createTrackbar("gap", "trackbars",&(guiParameters->gap),255);
-    createTrackbar("canny","trackbars",&(guiParameters->cannyThreshold), 255);
-    createTrackbar("houghThreshold","trackbars",&(guiParameters->houghThreshold), 255);
-    createTrackbar("houghMinLength","trackbars",&(guiParameters->houghMinLength), 255);
-    createTrackbar("houghMaxGap","trackbars",&(guiParameters->houghMaxGap), 255);
-    createTrackbar("blur","trackbars",&(guiParameters->blur), 25);
-    createTrackbar("dilate","trackbars",&(guiParameters->dilate), 25);
+    createTrackbar("dilate+erode","trackbars",&(guiParameters->dilate), 25);
+    createTrackbar("Hough", "trackbars", &(guiParameters->houghThreshold),1000);
+    createTrackbar("HoughMinLength", "trackbars", &(guiParameters->houghMinLength),255);
+    createTrackbar("HoughMaxGap", "trackbars", &(guiParameters->houghMaxGap),255);
 }
 
 
@@ -56,16 +49,21 @@ void initializeGui(GuiParameters* guiParameters){
     namedWindow("frame", CV_WINDOW_AUTOSIZE);
     namedWindow("BW", CV_WINDOW_AUTOSIZE);
     namedWindow("trackbars",CV_WINDOW_AUTOSIZE);
+//    namedWindow("hough", CV_WINDOW_AUTOSIZE);
     moveWindow("trackbars", 600,0);
     moveWindow("BW", 0,600);
     namedWindow("result", CV_WINDOW_AUTOSIZE);
     moveWindow("result",0,0);
-//    namedWindow("houghLines", CV_WINDOW_KEEPRATIO);
+    namedWindow("result2",CV_WINDOW_AUTOSIZE);
     initializeTrackbars(guiParameters);
+    namedWindow("plot", CV_WINDOW_AUTOSIZE);
 }
 
 void updateWindows(Image* img){
     imshow("frame", img->rawLR);
-    imshow("BW", img->bw);
+//    imshow("hough", img->hough);
+//    imshow("BW", img->bw);
     imshow("result", img->result);
+    imshow("result2", img->result2);
+    imshow("plot", img->plot);
 }

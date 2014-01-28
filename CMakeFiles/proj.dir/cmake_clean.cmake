@@ -4,6 +4,8 @@ FILE(REMOVE_RECURSE
   "CMakeFiles/proj.dir/gui.cpp.o"
   "CMakeFiles/proj.dir/colorThresholding.cpp.o"
   "CMakeFiles/proj.dir/target.cpp.o"
+  "CMakeFiles/proj.dir/fileIO.cpp.o"
+  "CMakeFiles/proj.dir/houghTransform.cpp.o"
   "proj.pdb"
   "proj"
 )

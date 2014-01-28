@@ -39,10 +39,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/martin/Documents/prosjektoppgave/project
+CMAKE_SOURCE_DIR = /home/martin/Documents/masteroppgave/project
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/martin/Documents/prosjektoppgave/project
+CMAKE_BINARY_DIR = /home/martin/Documents/masteroppgave/project
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -69,9 +69,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/martin/Documents/prosjektoppgave/project/CMakeFiles /home/martin/Documents/prosjektoppgave/project/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/martin/Documents/masteroppgave/project/CMakeFiles /home/martin/Documents/masteroppgave/project/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/martin/Documents/prosjektoppgave/project/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/martin/Documents/masteroppgave/project/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -135,6 +135,30 @@ colorThresholding.cpp.s:
 	$(MAKE) -f CMakeFiles/proj.dir/build.make CMakeFiles/proj.dir/colorThresholding.cpp.s
 .PHONY : colorThresholding.cpp.s
 
+fileIO.o: fileIO.cpp.o
+.PHONY : fileIO.o
+
+# target to build an object file
+fileIO.cpp.o:
+	$(MAKE) -f CMakeFiles/proj.dir/build.make CMakeFiles/proj.dir/fileIO.cpp.o
+.PHONY : fileIO.cpp.o
+
+fileIO.i: fileIO.cpp.i
+.PHONY : fileIO.i
+
+# target to preprocess a source file
+fileIO.cpp.i:
+	$(MAKE) -f CMakeFiles/proj.dir/build.make CMakeFiles/proj.dir/fileIO.cpp.i
+.PHONY : fileIO.cpp.i
+
+fileIO.s: fileIO.cpp.s
+.PHONY : fileIO.s
+
+# target to generate assembly for a file
+fileIO.cpp.s:
+	$(MAKE) -f CMakeFiles/proj.dir/build.make CMakeFiles/proj.dir/fileIO.cpp.s
+.PHONY : fileIO.cpp.s
+
 gui.o: gui.cpp.o
 .PHONY : gui.o
 
@@ -158,6 +182,30 @@ gui.s: gui.cpp.s
 gui.cpp.s:
 	$(MAKE) -f CMakeFiles/proj.dir/build.make CMakeFiles/proj.dir/gui.cpp.s
 .PHONY : gui.cpp.s
+
+houghTransform.o: houghTransform.cpp.o
+.PHONY : houghTransform.o
+
+# target to build an object file
+houghTransform.cpp.o:
+	$(MAKE) -f CMakeFiles/proj.dir/build.make CMakeFiles/proj.dir/houghTransform.cpp.o
+.PHONY : houghTransform.cpp.o
+
+houghTransform.i: houghTransform.cpp.i
+.PHONY : houghTransform.i
+
+# target to preprocess a source file
+houghTransform.cpp.i:
+	$(MAKE) -f CMakeFiles/proj.dir/build.make CMakeFiles/proj.dir/houghTransform.cpp.i
+.PHONY : houghTransform.cpp.i
+
+houghTransform.s: houghTransform.cpp.s
+.PHONY : houghTransform.s
+
+# target to generate assembly for a file
+houghTransform.cpp.s:
+	$(MAKE) -f CMakeFiles/proj.dir/build.make CMakeFiles/proj.dir/houghTransform.cpp.s
+.PHONY : houghTransform.cpp.s
 
 image.o: image.cpp.o
 .PHONY : image.o
@@ -243,9 +291,15 @@ help:
 	@echo "... colorThresholding.o"
 	@echo "... colorThresholding.i"
 	@echo "... colorThresholding.s"
+	@echo "... fileIO.o"
+	@echo "... fileIO.i"
+	@echo "... fileIO.s"
 	@echo "... gui.o"
 	@echo "... gui.i"
 	@echo "... gui.s"
+	@echo "... houghTransform.o"
+	@echo "... houghTransform.i"
+	@echo "... houghTransform.s"
 	@echo "... image.o"
 	@echo "... image.i"
 	@echo "... image.s"

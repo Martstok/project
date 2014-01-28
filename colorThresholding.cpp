@@ -10,27 +10,6 @@ using namespace cv;
 
 
 
-void produceBinaries(Image* img, GuiParameters* guiParameters){
-    img->bwList.clear();    //Caution: Leaving this one out causes major memory leak!
-
-    for(int i=0;i<NSAMPLES;i++){
-        Scalar lowerBound;
-        Scalar upperBound;
-//        normalizeColors(img);
-//        lowerBound=Scalar( c_lower[i][0] , c_lower[i][1], c_lower[i][2] );
-//        upperBound=Scalar( c_upper[i][0] , c_upper[i][1], c_upper[i][2] );
-        lowerBound=Scalar( guiParameters->range,guiParameters->range,guiParameters->range );
-        upperBound=Scalar( guiParameters->range+guiParameters->gap,guiParameters->range+guiParameters->gap,guiParameters->range+guiParameters->gap);
-        img->bwList.push_back(Mat(img->rawLR.rows,img->rawLR.cols,CV_8U));
-        inRange(img->rawLR,lowerBound,upperBound,img->bwList[i]);
-    }
-
-    img->bwList[0].copyTo(img->bw);
-//    for(int i=1;i<NSAMPLES;i++){
-//        img->bw+=img->bwList[i];
-//    }
-}
-
 
 // Using HSV
 
@@ -59,7 +38,7 @@ void produceBinariesHSV(Image* img, GuiParameters* guiParameters){
 
 //void normalizeColors(Image* img){
 //    // copy all boundries read from trackbar
-//    // to all of the different boundries
+//    // to all of the different boundaries
 //    for(int i=1;i<NSAMPLES;i++){
 //        for(int j=0;j<3;j++){
 //            c_lower[i][j]=c_lower[0][j];

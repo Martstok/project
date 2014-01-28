@@ -6,11 +6,31 @@
 
 #IncludeRegexTransform: 
 
-/home/martin/Documents/prosjektoppgave/project/colorThresholding.h
+/home/martin/Documents/masteroppgave/project/colorThresholding.h
 
-/home/martin/Documents/prosjektoppgave/project/gui.h
+/home/martin/Documents/masteroppgave/project/fileIO.h
 
-/home/martin/Documents/prosjektoppgave/project/image.h
+/home/martin/Documents/masteroppgave/project/gui.h
+
+/home/martin/Documents/masteroppgave/project/houghTransform.cpp
+houghTransform.h
+/home/martin/Documents/masteroppgave/project/houghTransform.h
+opencv2/core/core.hpp
+-
+image.h
+/home/martin/Documents/masteroppgave/project/image.h
+gui.h
+/home/martin/Documents/masteroppgave/project/gui.h
+iostream
+-
+
+/home/martin/Documents/masteroppgave/project/houghTransform.h
+opencv2/core/core.hpp
+-
+vector
+-
+
+/home/martin/Documents/masteroppgave/project/image.h
 opencv2/video/video.hpp
 -
 opencv2/highgui/highgui.hpp
@@ -22,7 +42,7 @@ vector
 opencv2/nonfree/features2d.hpp
 -
 
-/home/martin/Documents/prosjektoppgave/project/main.cpp
+/home/martin/Documents/masteroppgave/project/main.cpp
 iostream
 -
 string
@@ -36,17 +56,21 @@ opencv2/core/core.hpp
 opencv2/highgui/highgui.hpp
 -
 image.h
-/home/martin/Documents/prosjektoppgave/project/image.h
+/home/martin/Documents/masteroppgave/project/image.h
 stdio.h
-/home/martin/Documents/prosjektoppgave/project/stdio.h
+/home/martin/Documents/masteroppgave/project/stdio.h
 opencv2/imgproc/imgproc.hpp
 -
 gui.h
-/home/martin/Documents/prosjektoppgave/project/gui.h
+/home/martin/Documents/masteroppgave/project/gui.h
 colorThresholding.h
-/home/martin/Documents/prosjektoppgave/project/colorThresholding.h
+/home/martin/Documents/masteroppgave/project/colorThresholding.h
 target.h
-/home/martin/Documents/prosjektoppgave/project/target.h
+/home/martin/Documents/masteroppgave/project/target.h
+fileIO.h
+/home/martin/Documents/masteroppgave/project/fileIO.h
+houghTransform.h
+/home/martin/Documents/masteroppgave/project/houghTransform.h
 vector
 -
 opencv2/nonfree/features2d.hpp
@@ -54,7 +78,7 @@ opencv2/nonfree/features2d.hpp
 opencv2/legacy/legacy.hpp
 -
 
-/home/martin/Documents/prosjektoppgave/project/target.h
+/home/martin/Documents/masteroppgave/project/target.h
 opencv2/core/core.hpp
 -
 vector

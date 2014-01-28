@@ -6,10 +6,14 @@ using namespace cv;
 Image::Image()
 {
 }
+
+
 Image::Image(string sourceReference)
 {
     cap = VideoCapture(sourceReference);
 }
+
+
 Image::Image(string sourceReference, string sourceType)
 {
     if (sourceType=="video"){
@@ -19,6 +23,7 @@ Image::Image(string sourceReference, string sourceType)
         raw = imread(sourceReference);
     }
 }
+
 
 Mat downsample(cv::Mat inputImage, int upperLimit){
     while(max(inputImage.cols, inputImage.rows) > upperLimit){
